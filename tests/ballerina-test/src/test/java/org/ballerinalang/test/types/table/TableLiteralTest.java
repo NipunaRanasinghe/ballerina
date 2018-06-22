@@ -40,8 +40,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Class to test table literal.
@@ -374,8 +374,7 @@ public class TableLiteralTest {
     @Test(description = "Test table remove with function pointer of invalid return type")
     public void testTableReturnNegativeCases() {
         Assert.assertEquals(resultNegative.getErrorCount(), 1);
-        BAssertUtil.validateError(resultNegative, 0,
-                "incompatible types: expected 'function (any) returns (boolean)', found 'function (Person) returns (())'",
-                20, 33);
+        BAssertUtil.validateError(resultNegative, 0, "incompatible types: expected 'function (any) returns (boolean)', "
+                + "found 'function (Person) returns (())'", 20, 33);
     }
 }

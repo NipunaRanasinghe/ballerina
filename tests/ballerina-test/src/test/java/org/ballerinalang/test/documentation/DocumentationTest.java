@@ -361,7 +361,8 @@ public class DocumentationTest {
         //        docNodes = ((BLangEnum) packageNode.getEnums().get(0)).docAttachments;
         //        dNode = docNodes.get(0);
         //        Assert.assertNotNull(dNode);
-        //        Assert.assertEquals(dNode.documentationText.replaceAll(CR,EMPTY_STRING), " Documentation for state enum\n");
+        //        Assert.assertEquals(dNode.documentationText.replaceAll(CR,EMPTY_STRING),
+        //                  "Documentation for state enum\n");
         //        Assert.assertEquals(dNode.getAttributes().size(), 2);
         //        Assert.assertEquals(dNode.getAttributes().get(0).documentationField.getValue(), "foo");
         //        Assert.assertEquals(dNode.getAttributes().get(0).documentationText.replaceAll(CR,EMPTY_STRING),
@@ -445,14 +446,14 @@ public class DocumentationTest {
         //        dNodes = ((BLangEnum) packageNode.getEnums().get(0)).deprecatedAttachments;
         //        dNode = dNodes.get(0);
         //        Assert.assertNotNull(dNode);
-        //        Assert.assertEquals(dNode.documentationText.replaceAll(CR,EMPTY_STRING), "\n" +
-        //                "  This Enum is deprecated use `Enum2` instead.\n");
-
+        //        Assert.assertEquals(dNode.documentationText.replaceAll(CR, EMPTY_STRING),
+        //                "\n" + "  This Enum is deprecated use `Enum2` instead.\n");
+        //
         //        dNodes = ((BLangEnum) packageNode.getEnums().get(0)).deprecatedAttachments;
         //        dNode = dNodes.get(0);
         //        Assert.assertNotNull(dNode);
-        //        Assert.assertEquals(dNode.documentationText.replaceAll(CR,EMPTY_STRING), "\n" +
-        //                "  This Enum is deprecated use `Enum2` instead.\n");
+        //        Assert.assertEquals(dNode.documentationText.replaceAll(CR, EMPTY_STRING),
+        //                "\n" + "  This Enum is deprecated use `Enum2` instead.\n");
 
         dNodes = ((BLangVariable) packageNode.getGlobalVariables().get(0)).deprecatedAttachments;
         dNode = dNodes.get(0);
@@ -463,15 +464,15 @@ public class DocumentationTest {
         //        dNodes = ((BLangObject) packageNode.getObjects().get(0)).deprecatedAttachments;
         //        dNode = dNodes.get(0);
         //        Assert.assertNotNull(dNode);
-        //        Assert.assertEquals(dNode.documentationText.replaceAll(CR,EMPTY_STRING), "\n" +
-        //                "  This Connector is deprecated use `Connector(string url2){}` instead.\n");
+        //        Assert.assertEquals(dNode.documentationText.replaceAll(CR, EMPTY_STRING),
+        //                "\n" + "  This Connector is deprecated use `Connector(string url2){}` instead.\n");
         //
-        //        dNodes = ((BLangConnector) packageNode.getConnectors().get(0)).getActions().get(0).deprecatedAttachments;
+        //        dNodes = ((BLangConnector) packageNode.getConnectors().get(0)).getActions().get(0).
+        //                  deprecatedAttachments;
         //        dNode = dNodes.get(0);
         //        Assert.assertNotNull(dNode);
-        //        Assert.assertEquals(dNode.documentationText.replaceAll(CR,EMPTY_STRING), "\n" +
-        //                "      This action is deprecated use `Connector.test(string url2){}` instead.\n" +
-        //                "    ");
+        //        Assert.assertEquals(dNode.documentationText.replaceAll(CR, EMPTY_STRING),
+//                   "\n" + "      This action is deprecated use `Connector.test(string url2){}` instead.\n" + "    ");
 
         dNodes = ((BLangService) packageNode.getServices().get(0)).deprecatedAttachments;
         dNode = dNodes.get(0);
