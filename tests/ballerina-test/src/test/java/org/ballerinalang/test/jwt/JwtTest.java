@@ -47,11 +47,12 @@ public class JwtTest {
     public void setup() throws Exception {
         keyStorePath = getClass().getClassLoader().getResource(
                 "datafiles/security/keyStore/ballerinaKeystore.p12").getPath();
-        trustStorePath = getClass().getClassLoader().getResource(
-                "datafiles/security/keyStore/ballerinaTruststore.p12").getPath();
+        trustStorePath = getClass().getClassLoader().getResource("datafiles/security/keyStore/ballerinaTruststore.p12")
+                .getPath();
         resourceRoot = new File(getClass().getProtectionDomain().getCodeSource().
                 getLocation().getPath()).getAbsolutePath();
-        resourceRoot = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath()).getAbsolutePath();
+        resourceRoot = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath())
+                .getAbsolutePath();
         Path sourceRoot = Paths.get(resourceRoot, "test-src", "jwt");
         compileResult = BCompileUtil.compile(sourceRoot.resolve("jwt-test.bal").toString());
     }
@@ -70,5 +71,4 @@ public class JwtTest {
         BValue[] returns = BRunUtil.invoke(compileResult, "testValidateJwt", inputBValues);
         Assert.assertTrue((returns[0]) instanceof BBoolean);
     }
-
 }
