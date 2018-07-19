@@ -44,6 +44,9 @@
 
         <lang.syntaxHighlighterFactory language="Ballerina"
                                        implementationClass="io.ballerina.plugins.idea.highlighting.BallerinaSyntaxHighlighterFactory"/>
+
+        <fileEditorProvider implementation="io.ballerina.plugins.idea.ui.preview.BallerinaSplitEditorProvider"/>
+
         <stubIndex implementation="io.ballerina.plugins.idea.stubs.index.BallerinaFunctionIndex"/>
         <stubIndex implementation="io.ballerina.plugins.idea.stubs.index.BallerinaGlobalVariableIndex"/>
         <stubIndex implementation="io.ballerina.plugins.idea.stubs.index.BallerinaAnnotationIndex"/>
