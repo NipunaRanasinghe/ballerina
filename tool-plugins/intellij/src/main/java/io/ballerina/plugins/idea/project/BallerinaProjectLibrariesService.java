@@ -28,13 +28,12 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents Ballerina project library service.
  */
+
+//TODO: Restore storage settings
 @State(
         name = BallerinaConstants.BALLERINA_LIBRARIES_SERVICE_NAME,
-        storages = {
-                @Storage(id = "default", file = StoragePathMacros.PROJECT_FILE),
-                @Storage(id = "dir", file = StoragePathMacros.PROJECT_CONFIG_DIR + "/" +
-                        BallerinaConstants.BALLERINA_LIBRARIES_CONFIG_FILE, scheme = StorageScheme.DIRECTORY_BASED)
-        }
+        storages = @Storage()
+
 )
 public class BallerinaProjectLibrariesService extends BallerinaLibrariesService<BallerinaLibraryState> {
     public static BallerinaProjectLibrariesService getInstance(@NotNull Project project) {

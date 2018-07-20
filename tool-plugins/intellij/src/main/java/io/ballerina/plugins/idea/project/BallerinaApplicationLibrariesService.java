@@ -28,10 +28,11 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Provides Ballerina application library services.
  */
+
+//TODO: Restore storage settings
 @State(
         name = BallerinaConstants.BALLERINA_LIBRARIES_SERVICE_NAME,
-        storages = @Storage(file = StoragePathMacros.APP_CONFIG + "/" +
-                BallerinaConstants.BALLERINA_LIBRARIES_CONFIG_FILE)
+        storages = @Storage()
 )
 public class BallerinaApplicationLibrariesService extends
         BallerinaLibrariesService<BallerinaApplicationLibrariesService.BallerinaApplicationLibrariesState> {
