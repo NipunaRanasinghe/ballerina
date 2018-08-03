@@ -39,7 +39,7 @@ import org.jetbrains.annotations.NotNull;
 //TODO: Restore storage settings
 @State(
         name = BallerinaConstants.BALLERINA_MODULE_SESTTINGS_SERVICE_NAME,
-        storages = @Storage()
+        storages = @Storage(file = StoragePathMacros.MODULE_FILE)
 )
 public class BallerinaModuleSettings implements
         PersistentStateComponent<BallerinaModuleSettings.BallerinaModuleSettingsState> {

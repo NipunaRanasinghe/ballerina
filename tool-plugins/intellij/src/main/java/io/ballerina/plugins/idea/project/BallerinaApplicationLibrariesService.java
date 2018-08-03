@@ -32,7 +32,7 @@ import org.jetbrains.annotations.NotNull;
 //TODO: Restore storage settings
 @State(
         name = BallerinaConstants.BALLERINA_LIBRARIES_SERVICE_NAME,
-        storages = @Storage()
+        storages = @Storage(file = BallerinaConstants.BALLERINA_LIBRARIES_CONFIG_FILE)
 )
 public class BallerinaApplicationLibrariesService extends
         BallerinaLibrariesService<BallerinaApplicationLibrariesService.BallerinaApplicationLibrariesState> {
