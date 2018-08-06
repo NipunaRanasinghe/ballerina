@@ -51,13 +51,14 @@ sourceSets {
 apply plugin: 'org.jetbrains.intellij'
 intellij {
     // For a full list of IntelliJ IDEA releases, please see https://www.jetbrains.com/intellij-repository/releases.
-    version 'IC-LATEST-TRUNK-SNAPSHOT'
+    version ideaVersion
+    type ideaType
     pluginName ballerinaPluginName
     updateSinceUntilBuild false
     // plugins 'coverage' //Bundled plugin dependencies
     // Uncomment this line to test the plugin using small IDEs. Add -Dorg.gradle.project.localIdePath="IDE_HOME_PATH"
     // VM option in run config.
-    // alternativeIdePath localIdePath
+    // alternativeIdePath localIdePath`
 }
 
 apply plugin: 'de.undercouch.download'
