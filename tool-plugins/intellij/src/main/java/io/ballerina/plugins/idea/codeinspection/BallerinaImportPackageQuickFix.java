@@ -44,7 +44,7 @@ import com.intellij.ui.IdeBorderFactory;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBList;
 import com.intellij.util.containers.ContainerUtil;
-import io.ballerina.plugins.idea.BallerinaIcons;
+import icons.BallerinaIcons;
 import io.ballerina.plugins.idea.codeinsight.imports.BallerinaCodeInsightSettings;
 import io.ballerina.plugins.idea.psi.BallerinaFile;
 import io.ballerina.plugins.idea.psi.BallerinaIdentifier;
