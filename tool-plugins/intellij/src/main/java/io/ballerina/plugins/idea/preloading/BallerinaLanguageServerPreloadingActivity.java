@@ -151,14 +151,15 @@ public class BallerinaLanguageServerPreloadingActivity extends PreloadingActivit
             return false;
         }
         String balScriptPath = Paths.get(sdkPath, "bin", "ballerina").toString();
-        String launcherScriptPath = Paths.get(sdkPath,this.launcherScriptPath,"language-server-launcher.sh").toString();
+        String launcherScriptPath = Paths.get(sdkPath, this.launcherScriptPath, "language-server-launcher.sh")
+                .toString();
         return new File(balScriptPath).exists() && new File(launcherScriptPath).exists();
     }
 
     private boolean hasLspPlugin() {
         //checks among installed plugins
-        if (LSPluginInstallationNotificationProvider.isAlreadyInstalled()
-                && !LSPluginInstallationNotificationProvider.isDisabled()) {
+        if (LSPluginInstallationNotificationProvider.isAlreadyInstalled() && !LSPluginInstallationNotificationProvider
+                .isDisabled()) {
             return true;
         }
         return false;

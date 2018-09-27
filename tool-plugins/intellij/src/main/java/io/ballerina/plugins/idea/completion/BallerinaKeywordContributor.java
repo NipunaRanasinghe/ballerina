@@ -33,8 +33,8 @@ public class BallerinaKeywordContributor extends CompletionContributor implement
 
     public BallerinaKeywordContributor() {
         //If the LSP plugin is installed and enabled, disables the completions coming from ballerina plugin
-        if (!LSPluginInstallationNotificationProvider.isAlreadyInstalled()
-                || LSPluginInstallationNotificationProvider.isDisabled()){
+        if (!LSPluginInstallationNotificationProvider.isAlreadyInstalled() || LSPluginInstallationNotificationProvider
+                .isDisabled()) {
             extend(CompletionType.BASIC, isBallerinaNameReference(), new BallerinaKeywordCompletionProvider());
         }
     }

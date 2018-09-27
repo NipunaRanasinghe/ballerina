@@ -1,4 +1,4 @@
-package io.ballerina.plugins.idea.preloading;/*
+/*
  *  Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,16 +13,17 @@ package io.ballerina.plugins.idea.preloading;/*
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package io.ballerina.plugins.idea.preloading;
 
 import com.github.gtache.lsp.client.languageserver.serverdefinition.LanguageServerDefinition$;
 import com.github.gtache.lsp.client.languageserver.serverdefinition.RawCommandServerDefinition;
 
 /**
- * Language Server Definition Register Service
+ * Language Server Definition Register Service.
  */
 public class LanguageServerRegisterService {
 
-    static void register(String[] args ){
+    static void register(String[] args) {
         LanguageServerDefinition$.MODULE$.register(new RawCommandServerDefinition("bal", args));
     }
 }
