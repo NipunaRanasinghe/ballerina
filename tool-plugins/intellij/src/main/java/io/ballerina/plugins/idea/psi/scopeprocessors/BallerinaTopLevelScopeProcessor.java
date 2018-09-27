@@ -232,20 +232,21 @@ public class BallerinaTopLevelScopeProcessor extends BallerinaScopeProcessorBase
                                 if (publicFieldsOnly != null) {
                                     if (child.isPublic()) {
                                         myResult.addElement(BallerinaCompletionUtils
-                                                .createGlobalVariableLookupElement(child, BallerinaPsiImplUtil.formatBallerinaTypeName(child.getTypeName())));
+                                                .createGlobalVariableLookupElement(child, BallerinaPsiImplUtil
+                                                        .formatBallerinaTypeName(child.getTypeName())));
                                         lookupElementsFound = true;
                                     }
                                 } else {
                                     myResult.addElement(BallerinaCompletionUtils
-                                            .createGlobalVariableLookupElement(child, BallerinaPsiImplUtil.formatBallerinaTypeName(child.getTypeName())));
+                                            .createGlobalVariableLookupElement(child, BallerinaPsiImplUtil
+                                                    .formatBallerinaTypeName(child.getTypeName())));
                                     lookupElementsFound = true;
                                 }
                             } else if (myElement.getText().equals(identifier.getText())) {
                                 add(identifier);
                             }
                         }
-                    }
-                    else if (definitionType instanceof BallerinaChannelDefinition) {
+                    } else if (definitionType instanceof BallerinaChannelDefinition) {
                         BallerinaChannelDefinition child = (BallerinaChannelDefinition) definitionType;
                         PsiElement identifier = child.getIdentifier();
                         if (myElement.getText().equals(identifier.getText())) {
