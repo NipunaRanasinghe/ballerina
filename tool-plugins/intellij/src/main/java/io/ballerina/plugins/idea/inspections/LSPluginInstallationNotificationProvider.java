@@ -111,16 +111,16 @@ public class LSPluginInstallationNotificationProvider extends EditorNotification
         EditorNotificationPanel panel = new EditorNotificationPanel();
 
         if (isDisabled()) {
-            panel.setText("Enable LSP Support Plugin to get ballerina language server features (code completion, " +
-                    "diagnostics, hover support etc)");
+            panel.setText("Enable LSP Support Plugin to get ballerina language server features (code completion, "
+                    + "diagnostics, hover support etc)");
             panel.createActionLabel("Enable Plugin", () -> {
                 myEnabledExtensions.add(extension);
                 myNotifications.updateAllNotifications();
                 enablePlugin(myProject, getDisabledPlugin(LSP_PLUGIN_ID));
             });
         } else {
-            panel.setText("Install LSP Support plugin to get ballerina language server features (code completion, " +
-                    "diagnostics, hover support etc.)");
+            panel.setText("Install LSP Support plugin to get ballerina language server features (code completion, "
+                    + "diagnostics, hover support etc.)");
             panel.createActionLabel("Install Plugin", () -> {
                 Set<String> pluginIds = new HashSet<>();
                 pluginIds.add(LSP_PLUGIN_ID);
@@ -131,14 +131,23 @@ public class LSPluginInstallationNotificationProvider extends EditorNotification
             });
         }
         panel.createActionLabel("Ignore", () -> {
-            UnknownFeaturesCollector.getInstance(myProject).ignoreFeature(createExtensionFeature(extension));
-            myNotifications.updateAllNotifications();
+            if (createExtensionFeature(extension) != null) {
+                UnknownFeaturesCollector.getInstance(myProject).ignoreFeature(createExtensionFeature(extension));
+                myNotifications.updateAllNotifications();
+            } else {
+                //TODO: Revisit after changing minimum compatible IDEA version to 2018.1+
+                panel.hide();
+            }
         });
         return panel;
     }
 
     private static UnknownFeature createExtensionFeature(String extension) {
-        return new UnknownFeature(FileTypeFactory.FILE_TYPE_FACTORY_EP.getName(), "File Type", extension);
+        try {
+            return new UnknownFeature(FileTypeFactory.FILE_TYPE_FACTORY_EP.getName(), "File Type", extension);
+        } catch (NoSuchMethodError e) {
+            return null;
+        }
     }
 
     private static IdeaPluginDescriptor getDisabledPlugin(String pluginId) {
