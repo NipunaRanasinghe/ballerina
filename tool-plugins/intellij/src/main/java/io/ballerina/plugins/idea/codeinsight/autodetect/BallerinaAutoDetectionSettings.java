@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.ballerina.plugins.idea.codeinsight.imports;
+package io.ballerina.plugins.idea.codeinsight.autodetect;
 
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
@@ -25,45 +25,35 @@ import com.intellij.util.xmlb.annotations.Attribute;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Auto import code insight settings provider.
+ * Language server auto detection settings provider.
  */
-@State(name = "BallerinaCodeInsight",
-       storages = @Storage(value = "editor.code.insight.xml"))
-public class BallerinaCodeInsightSettings implements PersistentStateComponent<BallerinaCodeInsightSettings> {
+@State(name = "BallerinaLangServerAutoDetection",
+       storages = @Storage(value = "editor.detect.langserver.xml"))
+public class BallerinaAutoDetectionSettings implements PersistentStateComponent<BallerinaAutoDetectionSettings> {
 
     @Attribute
-    private boolean myShowImportPopup = true;
-    @Attribute
-    private boolean myAddUnambiguousImportsOnTheFly = false;
+    private boolean autoDetectBalHome = true;
 
-    public static BallerinaCodeInsightSettings getInstance() {
-        return ServiceManager.getService(BallerinaCodeInsightSettings.class);
+    public static BallerinaAutoDetectionSettings getInstance() {
+        return ServiceManager.getService(BallerinaAutoDetectionSettings.class);
     }
 
     @Nullable
     @Override
-    public BallerinaCodeInsightSettings getState() {
+    public BallerinaAutoDetectionSettings getState() {
         return this;
     }
 
     @Override
-    public void loadState(BallerinaCodeInsightSettings state) {
+    public void loadState(BallerinaAutoDetectionSettings state) {
         XmlSerializerUtil.copyBean(state, this);
     }
 
-    public boolean isShowImportPopup() {
-        return myShowImportPopup;
+    public boolean autoDetectBalHome() {
+        return autoDetectBalHome;
     }
 
-    public void setShowImportPopup(boolean showImportPopup) {
-        myShowImportPopup = showImportPopup;
-    }
-
-    public boolean isAddUnambiguousImportsOnTheFly() {
-        return myAddUnambiguousImportsOnTheFly;
-    }
-
-    public void setAddUnambiguousImportsOnTheFly(boolean addUnambiguousImportsOnTheFly) {
-        myAddUnambiguousImportsOnTheFly = addUnambiguousImportsOnTheFly;
+    public void setAutoDetectBalHome(boolean autoDetectBalHome) {
+        this.autoDetectBalHome = autoDetectBalHome;
     }
 }
