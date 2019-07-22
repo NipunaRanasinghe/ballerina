@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.ballerina.plugins.idea.codeinsight.autodetect;
+package io.ballerina.plugins.idea.configuration.experimental;
 
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
@@ -25,35 +25,36 @@ import com.intellij.util.xmlb.annotations.Attribute;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Language server auto detection settings provider.
+ * Settings for ballerina experimental features.
  */
-@State(name = "BallerinaLangServerAutoDetection",
-       storages = @Storage(value = "editor.detect.langserver.xml"))
-public class BallerinaAutoDetectionSettings implements PersistentStateComponent<BallerinaAutoDetectionSettings> {
+@State(name = "BallerinaAllowExperimental",
+        storages = @Storage(value = "editor.allow.experimental.xml"))
+public class BallerinaExperimentalFeatureSettings implements PersistentStateComponent
+        <BallerinaExperimentalFeatureSettings> {
 
     @Attribute
-    private boolean autoDetectBalHome = true;
+    private boolean allowExperimental = true;
 
-    public static BallerinaAutoDetectionSettings getInstance() {
-        return ServiceManager.getService(BallerinaAutoDetectionSettings.class);
+    public static BallerinaExperimentalFeatureSettings getInstance() {
+        return ServiceManager.getService(BallerinaExperimentalFeatureSettings.class);
     }
 
     @Nullable
     @Override
-    public BallerinaAutoDetectionSettings getState() {
+    public BallerinaExperimentalFeatureSettings getState() {
         return this;
     }
 
     @Override
-    public void loadState(BallerinaAutoDetectionSettings state) {
+    public void loadState(BallerinaExperimentalFeatureSettings state) {
         XmlSerializerUtil.copyBean(state, this);
     }
 
-    public boolean autoDetectBalHome() {
-        return autoDetectBalHome;
+    public boolean getAllowExperimental() {
+        return allowExperimental;
     }
 
-    public void setAutoDetectBalHome(boolean autoDetectBalHome) {
-        this.autoDetectBalHome = autoDetectBalHome;
+    public void setAllowExperimental(boolean allowExperimental) {
+        this.allowExperimental = allowExperimental;
     }
 }

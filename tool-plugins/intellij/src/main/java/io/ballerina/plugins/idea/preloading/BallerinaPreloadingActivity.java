@@ -26,7 +26,8 @@ import com.intellij.openapi.project.ProjectManagerListener;
 import com.intellij.openapi.ui.MessageType;
 import com.intellij.remoteServer.util.CloudNotifier;
 import com.intellij.util.messages.MessageBusConnection;
-import io.ballerina.plugins.idea.codeinsight.autodetect.BallerinaAutoDetectionSettings;
+import io.ballerina.plugins.idea.configuration.autodetect.BallerinaAutoDetectionSettings;
+import io.ballerina.plugins.idea.configuration.experimental.BallerinaExperimentalFeatureSettings;
 import io.ballerina.plugins.idea.extensions.BallerinaLSPExtensionManager;
 import io.ballerina.plugins.idea.sdk.BallerinaPathModificationTracker;
 import io.ballerina.plugins.idea.sdk.BallerinaSdk;
@@ -38,6 +39,8 @@ import org.wso2.lsp4intellij.client.languageserver.serverdefinition.RawCommandSe
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import static io.ballerina.plugins.idea.BallerinaConstants.BALLERINAX_SOURCE_PATH;
 import static io.ballerina.plugins.idea.BallerinaConstants.LAUNCHER_SCRIPT_PATH;
@@ -134,16 +137,19 @@ public class BallerinaPreloadingActivity extends PreloadingActivity {
     private static boolean doRegister(@NotNull Project project, @NotNull String sdkPath) {
         String os = OSUtils.getOperatingSystem();
         if (os != null) {
-            String args = null;
+            List<String> args = new ArrayList<>();
             if (os.equals(OSUtils.UNIX) || os.equals(OSUtils.MAC)) {
-                args = Paths.get(sdkPath, LAUNCHER_SCRIPT_PATH, "language-server-launcher.sh").toString();
+                args.add(Paths.get(sdkPath, LAUNCHER_SCRIPT_PATH, "language-server-launcher.sh").toString());
             } else if (os.equals(OSUtils.WINDOWS)) {
-                args = Paths.get(sdkPath, LAUNCHER_SCRIPT_PATH, "language-server-launcher.bat").toString();
+                args.add(Paths.get(sdkPath, LAUNCHER_SCRIPT_PATH, "language-server-launcher.bat").toString());
             }
 
-            if (!Strings.isNullOrEmpty(args)) {
+            if (!args.isEmpty()) {
+                if (BallerinaExperimentalFeatureSettings.getInstance().getAllowExperimental()) {
+                    args.add("--experimental");
+                }
                 IntellijLanguageClient.addServerDefinition(new RawCommandServerDefinition("bal",
-                        new String[]{args}), project);
+                        args.toArray(new String[0])), project);
                 IntellijLanguageClient.addExtensionManager("bal", new BallerinaLSPExtensionManager());
                 LOG.info("Registered language server definition using Sdk path: " + sdkPath);
                 return true;

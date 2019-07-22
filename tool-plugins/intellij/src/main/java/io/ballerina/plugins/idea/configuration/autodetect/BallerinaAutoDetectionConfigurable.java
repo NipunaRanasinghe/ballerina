@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.ballerina.plugins.idea.codeinsight.autodetect;
+package io.ballerina.plugins.idea.configuration.autodetect;
 
 import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.openapi.project.Project;
@@ -31,7 +31,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 /**
- * Adds enabling/disabling Ballerina language server auto detection in settings.
+ * Adds support for enabling/disabling Ballerina language server auto detection in settings.
  */
 public class BallerinaAutoDetectionConfigurable implements SearchableConfigurable {
 
