@@ -18,6 +18,8 @@ package io.ballerina.plugins.idea.sdk;
 
 import com.google.common.base.Strings;
 import com.intellij.execution.configurations.PathEnvironmentVariableUtil;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.application.ex.ApplicationManagerEx;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
@@ -25,6 +27,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.roots.ProjectRootManager;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.io.FileUtil;
@@ -39,7 +42,7 @@ import com.intellij.util.Function;
 import com.intellij.util.ObjectUtils;
 import com.intellij.util.containers.ContainerUtil;
 import io.ballerina.plugins.idea.BallerinaConstants;
-import io.ballerina.plugins.idea.codeinsight.autodetect.BallerinaAutoDetectionSettings;
+import io.ballerina.plugins.idea.configuration.autodetect.BallerinaAutoDetectionSettings;
 import io.ballerina.plugins.idea.preloading.OSUtils;
 import io.ballerina.plugins.idea.project.BallerinaApplicationLibrariesService;
 import io.ballerina.plugins.idea.project.BallerinaLibrariesService;
@@ -437,6 +440,18 @@ public class BallerinaSdkUtils {
             return "";
         }
         return searchForBallerinaProjectRoot(currentDir.getParentFile().getAbsolutePath(), root);
+    }
+
+    @Messages.YesNoResult
+    public static void showRestartDialog(String dialogText) {
+        ApplicationManager.getApplication().invokeLater(() -> {
+            String action = ApplicationManagerEx.getApplicationEx().isRestartCapable() ? "Restart" : "Shutdown";
+            String message = String.format("%s is required to %s. Do you wish to continue?", action, dialogText);
+            if (Messages.showYesNoDialog(message, "Apply Changes", action, "Postpone",
+                    Messages.getQuestionIcon()) == Messages.YES) {
+                ApplicationManagerEx.getApplicationEx().restart(true);
+            }
+        });
     }
 
     @Nullable

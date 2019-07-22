@@ -20,6 +20,7 @@ import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.UIUtil;
+import io.ballerina.plugins.idea.sdk.BallerinaSdkUtils;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -30,6 +31,7 @@ import java.awt.Dimension;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+
 /**
  * Adds support for enabling/disabling Ballerina language server auto detection in settings.
  */
@@ -68,6 +70,7 @@ public class BallerinaAutoDetectionConfigurable implements SearchableConfigurabl
     @Override
     public void apply() {
         myLangServerAutoDetectionSettings.setAutoDetectBalHome(myCbUseAutoDetectedBallerinaHome.isSelected());
+        BallerinaSdkUtils.showRestartDialog("apply changes");
     }
 
     @Override
