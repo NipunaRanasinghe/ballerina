@@ -31,14 +31,13 @@ import org.testng.annotations.Test;
  *
  * @since 0.8.0
  */
-@Test(groups = { "brokenOnJBallerina" })
 public class PackageInitInvocationTest {
 
     private CompileResult result;
 
     @BeforeClass
     public void setup() {
-        result = BCompileUtil.compile(this, "test-src", "expressions.invocations.pkg.c");
+        result = BCompileUtil.compile("test-src/packageinit", "expressions.invocations.pkg.c");
     }
 
     @Test
@@ -47,5 +46,13 @@ public class PackageInitInvocationTest {
         Assert.assertEquals(values.length, 1);
         Assert.assertTrue(values[0] instanceof BInteger);
         Assert.assertEquals(((BInteger) values[0]).intValue(), 19);
+    }
+
+    @Test
+    public void testGetValueFromPackageLevelAsyncInvocation() {
+        BValue[] values = BRunUtil.invoke(result, "testGetIntValue");
+        Assert.assertEquals(values.length, 1);
+        Assert.assertTrue(values[0] instanceof BInteger);
+        Assert.assertEquals(((BInteger) values[0]).intValue(), 899);
     }
 }

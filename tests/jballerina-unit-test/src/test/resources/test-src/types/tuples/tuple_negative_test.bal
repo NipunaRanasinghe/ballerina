@@ -38,6 +38,24 @@ function invalidTupleAssignmentToUnion() {
     [Person, int] | [Employee, int] | () k3 = [p, 3]; // ambiguous
 }
 
+function testTupleToArrayAssignmentNegative() returns int[] {
+    [string...] x = ["a", "b", "c"];
+    int[] y = x;
+    return y;
+}
+
+function testArrayToTupleAssignmentNegative() returns [int...] {
+    string[] x = ["a", "b", "c"];
+    [int...] y = x;
+    return y;
+}
+
+function testArrayToTupleAssignmentNegative2() returns [int, string...] {
+    (int|string)[] x = [1, "b", "c"];
+    [int, string...] y = x;
+    return y;
+}
+
 function tupleAssignmentToAnyAndVar () {
     var x1 = (1); // brace hence valid
     any x2 = (1); // brace hence valid
@@ -91,4 +109,11 @@ function testInvalidInsertionToTupleUsingFiniteType() {
     var c = tuple[f3]; // incompatible types: expected 'int', found '0|1|2|S1'
     var d = tuple[f4]; // incompatible types: expected 'int', found '0|1|2|S1|S2'
     var e = tuple[f5]; // invalid tuple index expression: value space '3|4|5|6' out of range
+}
+
+const INDEX_NEG_ONE = -1;
+
+function testInvalidConstIndex() {
+    [string, int] tuple = ["str", 2];
+    var v = tuple[INDEX_NEG_ONE];
 }

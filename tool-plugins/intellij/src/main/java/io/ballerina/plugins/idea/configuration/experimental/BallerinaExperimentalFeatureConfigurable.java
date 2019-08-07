@@ -73,7 +73,7 @@ public class BallerinaExperimentalFeatureConfigurable implements SearchableConfi
         // Need to prompt a restart action to clear and re re-spawn language server instance with the changed
         // configuration.
         // Todo - Figure out a way to apply changes without restarting IDE.
-        BallerinaSdkUtils.showRestartDialog("re-spawn language server with the new configuration");
+        BallerinaSdkUtils.showRestartDialog(null);
     }
 
     @Override

@@ -44,6 +44,7 @@ import io.ballerina.plugins.idea.BallerinaConstants;
 import io.ballerina.plugins.idea.configuration.autodetect.BallerinaAutoDetectionSettings;
 import io.ballerina.plugins.idea.sdk.BallerinaSdkService;
 import io.ballerina.plugins.idea.sdk.BallerinaSdkUtils;
+import io.ballerina.plugins.idea.settings.autodetect.BallerinaAutoDetectionSettings;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -156,7 +157,7 @@ public abstract class BallerinaRunConfigurationBase<RunningState extends Balleri
         }
     }
 
-    protected void addNonEmptyElement(@NotNull Element element, @NotNull String attributeName, @Nullable String value) {
+    void addNonEmptyElement(@NotNull Element element, @NotNull String attributeName, @Nullable String value) {
         if (StringUtil.isNotEmpty(value)) {
             JDOMExternalizerUtil.writeCustomField(element, attributeName, value);
         }
@@ -178,7 +179,7 @@ public abstract class BallerinaRunConfigurationBase<RunningState extends Balleri
         EnvironmentVariablesComponent.readExternal(element, myCustomEnvironment);
 
         String passEnvValue = JDOMExternalizerUtil.readCustomField(element, PASS_PARENT_ENV);
-        myPassParentEnvironment = passEnvValue == null || Boolean.valueOf(passEnvValue);
+        myPassParentEnvironment = passEnvValue == null || Boolean.parseBoolean(passEnvValue);
     }
 
     @NotNull

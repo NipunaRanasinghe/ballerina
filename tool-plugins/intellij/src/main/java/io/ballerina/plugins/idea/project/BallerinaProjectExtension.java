@@ -67,7 +67,7 @@ public class BallerinaProjectExtension extends ProjectExtension {
         // Need to prompt a restart action to clear and re initiate language server instance from the new SDK.
         // Todo - Figure out a way to apply language server changes without restarting.
         if (isBallerinaSdk(sdk)) {
-            BallerinaSdkUtils.showRestartDialog("start ballerina language server using new SDK location");
+            BallerinaSdkUtils.showRestartDialog(project);
         }
     }
 

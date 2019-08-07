@@ -34,6 +34,7 @@ function testInvalidErrorReasonWithConstantAsReason() returns error {
 
 type Foo record {|
     string message;
+    error cause?;
     int...;
 |};
 
@@ -67,3 +68,31 @@ type MyErrorErrorData record {|
     MyError cause?;
     map<string> data = {};
 |};
+
+type ER UserDefErrorOne|UserDefErrorTwo;
+
+function contextuallyExpTypeIsAUnion() {
+    ER e = error("OtherReason");
+}
+
+type Bee record {|
+    string message?;
+    boolean fatal;
+    error cause?;
+    anydata...;
+|};
+
+const R = "r";
+const N = "r";
+type RN R|N;
+type RNStr R|N|string;
+
+type BeeError error <R, Bee>;
+type RNError error <RN, Bee>;
+type RNStrError error <RNStr, Bee>;
+
+function testIndirectErrorDestructuring() {
+    BeeError e = BeeError(message="Msg", fatal=false, other="k");
+    RNError e2 = RNError(message="Msg", fatal=false, other="k");
+    RNStrError e3 = RNStrError(message="Msg", fatal=false, other="k");
+}

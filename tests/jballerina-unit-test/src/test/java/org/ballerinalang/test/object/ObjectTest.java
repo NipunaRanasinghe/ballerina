@@ -17,7 +17,6 @@
  */
 package org.ballerinalang.test.object;
 
-import org.ballerinalang.compiler.BLangCompilerException;
 import org.ballerinalang.model.values.BInteger;
 import org.ballerinalang.model.values.BMap;
 import org.ballerinalang.model.values.BString;
@@ -602,6 +601,14 @@ public class ObjectTest {
         Assert.assertEquals(((BInteger) returns[3]).intValue(), 12500);
     }
 
+    @Test
+    public void testObjectWithFutureTypeFieldWithValue() {
+        CompileResult compileResult = BCompileUtil.compile("test-src/object/object_with_future_type_field.bal");
+        BValue[] returns = BRunUtil.invoke(compileResult, "getIntFromFutureField");
+        Assert.assertEquals(returns.length, 1);
+        Assert.assertEquals(((BInteger) returns[0]).intValue(), 20);
+    }
+
     @Test(description = "Test initialization of object union")
     @SuppressWarnings("unchecked")
     public void testUnionTypeObjectInit() {
@@ -660,12 +667,12 @@ public class ObjectTest {
         Assert.assertEquals(((BInteger) retChoose.get("val")).intValue(), 5);
     }
 
-    @Test(dataProvider = "missingNativeImplFiles", groups = "brokenOnBootstrappedJVMCodegen")
+    @Test(dataProvider = "missingNativeImplFiles")
     public void testObjectWithMissingNativeImpl(String filePath) {
         try {
             BCompileUtil.compile(filePath);
-        } catch (BLangCompilerException e) {
-            Assert.assertTrue(e.getMessage().contains("jvm code gen phase failed"));
+        } catch (Exception e) {
+            Assert.assertEquals(e.getMessage(), "native function not available: Person.printName");
             return;
         }
         Assert.fail("expected compilation to fail due to missing external implementation");

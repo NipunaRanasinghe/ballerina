@@ -19,7 +19,7 @@
 package org.ballerinalang.packerina.cmd;
 
 import com.moandjiezana.toml.Toml;
-import org.ballerinalang.toml.model.Balo;
+import org.ballerinalang.packerina.model.BaloToml;
 import org.ballerinalang.toml.model.Module;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -28,6 +28,9 @@ import org.wso2.ballerinalang.compiler.util.ProjectDirConstants;
 import org.wso2.ballerinalang.programfile.ProgramFileConstants;
 import picocli.CommandLine;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -41,6 +44,8 @@ import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collections;
 import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Build command tests.
@@ -65,19 +70,20 @@ public class BuildCommandTest extends CommandTest {
         Files.walkFileTree(Paths.get(uri), new CompileCommandTest.Copy(Paths.get(uri), projectDirectory));
     }
 
-    @Test(description = "Test Build Command in a Project", enabled = false)
+    @Test(description = "Test Build Command in a Project")
     public void testBuildCommand() throws IOException {
 
         // Create jar files for the test since we cannot commit jar files to git.
         Path libs = projectDirectory.resolve("libs");
         Files.createDirectory(libs);
-        Files.createFile(libs.resolve("toml4j.jar"));
-        Files.createFile(libs.resolve("swagger.jar"));
-        Files.createFile(libs.resolve("json.jar"));
+
+        zipFile(libs.resolve("toml4j.jar").toFile(), "toml.class");
+        zipFile(libs.resolve("swagger.jar").toFile(), "swagger.class");
+        zipFile(libs.resolve("json.jar").toFile(), "json.class");
 
         // Build the project
-        String[] compileArgs = {"--skip-tests", "-c", "--jvmTarget"};
-        BuildCommand buildCommand = new BuildCommand(projectDirectory, printStream, false);
+        String[] compileArgs = {};
+        BuildCommand buildCommand = new BuildCommand(projectDirectory, printStream, printStream, false);
         new CommandLine(buildCommand).parse(compileArgs);
         buildCommand.execute();
 
@@ -113,15 +119,34 @@ public class BuildCommandTest extends CommandTest {
         readOutput(true);
     }
 
-    @Test(dependsOnMethods = {"testBuildCommand"}, enabled = false)
+    private static void zipFile(File file, String contentFile) {
+        try {
+            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(file));
+            ZipEntry e = new ZipEntry(contentFile);
+            out.putNextEntry(e);
+            StringBuilder sb = new StringBuilder();
+            sb.append("Test String");
+            byte[] data = sb.toString().getBytes();
+            out.write(data, 0, data.length);
+            out.closeEntry();
+            out.close();
+        } catch (FileNotFoundException ex) {
+            System.err.format("The file %s does not exist", file.getName());
+        } catch (IOException ex) {
+            System.err.format("I/O error: " + ex);
+        }
+    }
+
+    @Test(dependsOnMethods = {"testBuildCommand"})
     public void testBuildOutput() {
         Path bin = projectDirectory.resolve(ProjectDirConstants.TARGET_DIR_NAME)
                 .resolve(ProjectDirConstants.BIN_DIR_NAME);
         Assert.assertTrue(Files.exists(bin));
-        Assert.assertTrue(Files.exists(bin.resolve("mymodule.jar")));
+        Assert.assertTrue(Files.exists(bin.resolve("mymodule" + ProjectDirConstants.EXEC_SUFFIX +
+                                                   ProjectDirConstants.BLANG_COMPILED_JAR_EXT)));
     }
 
-    @Test(dependsOnMethods = {"testBuildCommand"}, enabled = false)
+    @Test(dependsOnMethods = {"testBuildCommand"})
     public void testBaloContents() throws IOException {
         URI baloZip = URI.create("jar:" + moduleBalo.toUri().toString());
         FileSystems.newFileSystem(baloZip, Collections.emptyMap())
@@ -154,10 +179,10 @@ public class BuildCommandTest extends CommandTest {
                         String baloTomlContent = new String(Files.readAllBytes(baloToml));
 
                         Module module = new Toml().read(moduleTomlContent).to(Module.class);
-                        Balo balo = new Toml().read(baloTomlContent).to(Balo.class);
-
-                        Assert.assertTrue(module.module_version.equals("0.1.0"));
-                        Assert.assertTrue(balo.balo_version == 1.0);
+                        BaloToml balo = new Toml().read(baloTomlContent).to(BaloToml.class);
+    
+                        Assert.assertEquals(module.module_version, "0.1.0");
+                        Assert.assertEquals(balo.balo_version, "1.0.0");
 
                         Path srcDir = root.resolve(ProjectDirConstants.SOURCE_DIR_NAME);
                         Assert.assertTrue(Files.exists(srcDir));
@@ -224,7 +249,7 @@ public class BuildCommandTest extends CommandTest {
 
         // Build the project
         String[] compileArgs = {};
-        BuildCommand buildCommand = new BuildCommand(tmpDir, printStream, false);
+        BuildCommand buildCommand = new BuildCommand(tmpDir, printStream, printStream, false);
         new CommandLine(buildCommand).parse(compileArgs);
         buildCommand.execute();
 
@@ -238,7 +263,7 @@ public class BuildCommandTest extends CommandTest {
     public void testBuildCommandSingleFile() throws IOException {
         // Build the project
         String[] compileArgs = {"main.bal"};
-        BuildCommand buildCommand = new BuildCommand(tmpDir, printStream, false);
+        BuildCommand buildCommand = new BuildCommand(tmpDir, printStream, printStream, false);
         new CommandLine(buildCommand).parse(compileArgs);
         buildCommand.execute();
 
@@ -257,7 +282,7 @@ public class BuildCommandTest extends CommandTest {
     public void testBuildCommandSingleFileWithOutput() throws IOException {
         // Build the project
         String[] compileArgs = {"main.bal"};
-        BuildCommand buildCommand = new BuildCommand(tmpDir, printStream, false);
+        BuildCommand buildCommand = new BuildCommand(tmpDir, printStream, printStream, false);
         new CommandLine(buildCommand).parse(compileArgs);
         buildCommand.execute();
 

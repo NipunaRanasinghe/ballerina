@@ -19,7 +19,7 @@
 package org.ballerinalang.packerina.cmd;
 
 import com.moandjiezana.toml.Toml;
-import org.ballerinalang.toml.model.Balo;
+import org.ballerinalang.packerina.model.BaloToml;
 import org.ballerinalang.toml.model.Module;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -67,7 +67,7 @@ public class CompileCommandTest extends CommandTest {
         Files.walkFileTree(Paths.get(uri), new Copy(Paths.get(uri), projectDirectory));
     }
 
-    @Test(description = "Test Compile Command in a Project", enabled = false)
+    @Test(description = "Test Compile Command in a Project")
     public void testCompileCommand() throws IOException {
 
         // Create jar files for the test since we cannot commit jar files to git.
@@ -78,8 +78,8 @@ public class CompileCommandTest extends CommandTest {
         Files.createFile(libs.resolve("json.jar"));
 
         // Compile the project
-        String[] compileArgs = {"--skip-tests", "-c", "--jvmTarget"};
-        CompileCommand compileCommand = new CompileCommand(projectDirectory, printStream, false);
+        String[] compileArgs = {};
+        CompileCommand compileCommand = new CompileCommand(projectDirectory, printStream, printStream, false);
         new CommandLine(compileCommand).parse(compileArgs);
         compileCommand.execute();
 
@@ -96,6 +96,7 @@ public class CompileCommandTest extends CommandTest {
         // -- kubernetes/    <- output of kubernetes compiler extension if used
         // -- potato/        <- output of potato compiler extension
         // -- cache          <- BIR cache directory
+        // --tmp             <- tmp dir that contains the native libs
 
         Path target = projectDirectory.resolve(ProjectDirConstants.TARGET_DIR_NAME);
         Assert.assertTrue(Files.exists(target), "Check if target directory is created");
@@ -109,13 +110,17 @@ public class CompileCommandTest extends CommandTest {
         Assert.assertTrue(Files.exists(target.resolve(ProjectDirConstants.TARGET_BALO_DIRECTORY)),
                 "Check if balo file exists");
 
+        // Check if tmp folder exists
+        Path tmpDir = target.resolve(ProjectDirConstants.TARGET_TMP_DIRECTORY);
+        Assert.assertTrue(Files.exists(tmpDir));
+
         Path lockFile = projectDirectory.resolve(ProjectDirConstants.LOCK_FILE_NAME);
         Assert.assertTrue(Files.exists(lockFile), "Check if lock file is created");
 
         readOutput(true);
     }
 
-    @Test(dependsOnMethods = {"testCompileCommand"}, enabled = false)
+    @Test(dependsOnMethods = {"testCompileCommand"})
     public void testBaloContents() throws IOException {
         URI baloZip = URI.create("jar:" + moduleBalo.toUri().toString());
         FileSystems.newFileSystem(baloZip, Collections.emptyMap())
@@ -148,10 +153,10 @@ public class CompileCommandTest extends CommandTest {
                         String baloTomlContent = new String(Files.readAllBytes(baloToml));
 
                         Module module = new Toml().read(moduleTomlContent).to(Module.class);
-                        Balo balo = new Toml().read(baloTomlContent).to(Balo.class);
-
-                        Assert.assertTrue(module.module_version.equals("0.1.0"));
-                        Assert.assertEquals(balo.balo_version, 1.0);
+                        BaloToml balo = new Toml().read(baloTomlContent).to(BaloToml.class);
+    
+                        Assert.assertEquals(module.module_version, "0.1.0");
+                        Assert.assertEquals(balo.balo_version, "1.0.0");
 
                         Path srcDir = root.resolve(ProjectDirConstants.SOURCE_DIR_NAME);
                         Assert.assertTrue(Files.exists(srcDir));
@@ -196,9 +201,32 @@ public class CompileCommandTest extends CommandTest {
                         throw new AssertionError("Error while reading balo content");
                     }
                 });
+
+
+        Path tmpDir = projectDirectory.resolve(ProjectDirConstants.TARGET_DIR_NAME).
+                resolve(ProjectDirConstants.TARGET_TMP_DIRECTORY);
+
+        // Check if the native libs are in the tmp folder
+        Path tomlJarInTmpDir = tmpDir.resolve("toml4j.jar");
+        Assert.assertTrue(Files.exists(tomlJarInTmpDir));
+
+        // Check if the module libs are in the tmp folder
+        Path moduleJar = tmpDir.resolve("mymodule.jar");
+        Assert.assertTrue(Files.exists(moduleJar));
+
+        // Check if the imported libs are in the tmp folder
+        Path importJar = tmpDir.resolve("myimport.jar");
+        Assert.assertTrue(Files.exists(importJar));
+
+        // Check if imported bir is in the project target
+        Path importBir = projectDirectory.resolve(ProjectDirConstants.TARGET_DIR_NAME)
+                .resolve(ProjectDirConstants.CACHES_DIR_NAME).resolve(ProjectDirConstants.BIR_CACHE_DIR_NAME)
+                .resolve("testOrg").resolve("myimport").resolve("0.1.0").resolve("myimport.bir");
+        Assert.assertTrue(Files.exists(importBir));
+
     }
 
-    @Test(dependsOnMethods = {"testCompileCommand"}, enabled = false)
+    @Test(dependsOnMethods = {"testCompileCommand"})
     public void testTargetCacheDirectory() throws IOException {
         // check for the cache directory in target
         Path cache = projectDirectory.resolve(ProjectDirConstants.TARGET_DIR_NAME)
@@ -217,14 +245,14 @@ public class CompileCommandTest extends CommandTest {
         Files.write(balFile, question.getBytes());
 
         // Compile the project
-        String[] compileArgs = {"--skip-tests", "-c", "--jvmTarget"};
-        CompileCommand compileCommand = new CompileCommand(tmpDir, printStream, false);
+        String[] compileArgs = {};
+        CompileCommand compileCommand = new CompileCommand(tmpDir, printStream, printStream, false);
         new CommandLine(compileCommand).parse(compileArgs);
         compileCommand.execute();
 
         Assert.assertFalse(Files.exists(tmpDir.resolve(ProjectDirConstants.TARGET_DIR_NAME)),
                 "Check if target directory is not created");
-        Assert.assertTrue(readOutput().contains("Compile command can be only run inside a Ballerina project"));
+        Assert.assertTrue(readOutput().contains("compile command can be only run inside a Ballerina project"));
         Path lockFile = tmpDir.resolve(ProjectDirConstants.LOCK_FILE_NAME);
         Assert.assertFalse(Files.exists(lockFile), "Check if lock file is created");
     }

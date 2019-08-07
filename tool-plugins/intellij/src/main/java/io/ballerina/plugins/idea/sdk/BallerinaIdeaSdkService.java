@@ -47,7 +47,7 @@ public class BallerinaIdeaSdkService extends BallerinaSdkService {
         super(project);
         myProject.getMessageBus().connect(project).subscribe(ProjectTopics.PROJECT_ROOTS, new ModuleRootListener() {
             @Override
-            public void rootsChanged(ModuleRootEvent event) {
+            public void rootsChanged(@NotNull ModuleRootEvent event) {
                 incModificationCount();
             }
         });
@@ -90,7 +90,7 @@ public class BallerinaIdeaSdkService extends BallerinaSdkService {
         // Need to prompt a restart action to clear and re re-spawn language server instance from the new SDK.
         // Todo - Figure out a way to apply language server changes without restarting.
         if (isBallerinaSdk(projectSdk)) {
-            BallerinaSdkUtils.showRestartDialog("start ballerina language server using new SDK location");
+            BallerinaSdkUtils.showRestartDialog(myProject);
         }
     }
 

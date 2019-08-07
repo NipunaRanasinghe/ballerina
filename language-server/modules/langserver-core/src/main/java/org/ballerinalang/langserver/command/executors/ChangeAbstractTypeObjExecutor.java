@@ -22,7 +22,6 @@ import org.ballerinalang.langserver.command.LSCommandExecutor;
 import org.ballerinalang.langserver.command.LSCommandExecutorException;
 import org.ballerinalang.langserver.common.constants.CommandConstants;
 import org.ballerinalang.langserver.compiler.DocumentServiceKeys;
-import org.ballerinalang.langserver.compiler.LSCompiler;
 import org.ballerinalang.langserver.compiler.LSCompilerException;
 import org.ballerinalang.langserver.compiler.LSContext;
 import org.ballerinalang.langserver.compiler.workspace.WorkspaceDocumentManager;
@@ -89,11 +88,10 @@ public class ChangeAbstractTypeObjExecutor implements LSCommandExecutor {
         }
 
         WorkspaceDocumentManager documentManager = context.get(ExecuteCommandKeys.DOCUMENT_MANAGER_KEY);
-        LSCompiler lsCompiler = context.get(ExecuteCommandKeys.LS_COMPILER_KEY);
 
-        BLangObjectTypeNode objectNode = null;
+        BLangObjectTypeNode objectNode;
         try {
-            objectNode = getObjectNode(sLine, sCol, documentUri, documentManager, lsCompiler, context);
+            objectNode = getObjectNode(sLine, sCol, documentUri, documentManager, context);
         } catch (LSCompilerException e) {
             throw new LSCommandExecutorException("Error while compiling the source!");
         }

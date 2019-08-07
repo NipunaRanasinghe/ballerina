@@ -39,7 +39,8 @@ public class LSPackageCacheTest {
         String content = new String(Files.readAllBytes(filePath));
         // Prepare compiler resources
         String sourceRoot = LSCompilerUtil.getProjectRoot(filePath);
-        String pkgName = LSCompilerUtil.getPackageNameForGivenFile(sourceRoot, filePath.toString());
+        LSDocument lsDocument = new LSDocument(sourceRoot);
+        String pkgName = lsDocument.getOwnerModule();
         LSDocument sourceDocument = new LSDocument(filePath, sourceRoot);
         WorkspaceDocumentManagerImpl documentManager = ExtendedWorkspaceDocumentManagerImpl.getInstance();
         PackageRepository packageRepository = new WorkspacePackageRepository(sourceRoot, documentManager);
@@ -47,8 +48,8 @@ public class LSPackageCacheTest {
         CompilerContext context = LSCompilerUtil.prepareCompilerContext(packageID, packageRepository, sourceDocument,
                                                                         true, documentManager);
         // Compile test bal file
-        LSCompiler lsCompiler = new LSCompiler(documentManager);
-        lsCompiler.updateAndCompileFile(filePath, content, CompilerPhase.TAINT_ANALYZE, documentManager);
+//        LSModuleCompiler lsCompiler = new LSModuleCompiler(documentManager);
+        ExtendedLSCompiler.updateAndCompileFile(filePath, content, CompilerPhase.TAINT_ANALYZE);
 
         // Check cache whether it still holds the current package
         Set<String> packageMayKeySet = LSPackageCache.getInstance(context).getPackageMap().keySet();

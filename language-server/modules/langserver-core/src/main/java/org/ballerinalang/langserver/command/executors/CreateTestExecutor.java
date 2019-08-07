@@ -30,10 +30,10 @@ import org.ballerinalang.langserver.command.testgen.TestGenerator;
 import org.ballerinalang.langserver.command.testgen.TestGeneratorException;
 import org.ballerinalang.langserver.common.constants.CommandConstants;
 import org.ballerinalang.langserver.compiler.DocumentServiceKeys;
-import org.ballerinalang.langserver.compiler.LSCompiler;
 import org.ballerinalang.langserver.compiler.LSCompilerException;
 import org.ballerinalang.langserver.compiler.LSCompilerUtil;
 import org.ballerinalang.langserver.compiler.LSContext;
+import org.ballerinalang.langserver.compiler.LSModuleCompiler;
 import org.ballerinalang.langserver.compiler.workspace.WorkspaceDocumentManager;
 import org.eclipse.lsp4j.ApplyWorkspaceEditParams;
 import org.eclipse.lsp4j.CreateFile;
@@ -162,12 +162,11 @@ public class CreateTestExecutor implements LSCommandExecutor {
         }
 
         WorkspaceDocumentManager docManager = context.get(ExecuteCommandKeys.DOCUMENT_MANAGER_KEY);
-        LSCompiler lsCompiler = context.get(ExecuteCommandKeys.LS_COMPILER_KEY);
 
         // Compile the source file
-        BLangPackage builtSourceFile = null;
+        BLangPackage builtSourceFile;
         try {
-            builtSourceFile = lsCompiler.getBLangPackage(context, docManager, false, null, false);
+            builtSourceFile = LSModuleCompiler.getBLangPackage(context, docManager, false, null, false);
         } catch (LSCompilerException e) {
             throw new LSCommandExecutorException("Couldn't compile the source", e);
         }
@@ -195,7 +194,7 @@ public class CreateTestExecutor implements LSCommandExecutor {
 
             // Generate test content edits
             String pkgRelativeSourceFilePath = testDirs.getLeft().relativize(filePath).toString();
-            Pair<BLangNode, Object> bLangNodePair = getBLangNode(line, column, docUri, docManager, lsCompiler, context);
+            Pair<BLangNode, Object> bLangNodePair = getBLangNode(line, column, docUri, docManager, context);
 
             Position position = new Position(0, 0);
             Range focus = new Range(position, position);
