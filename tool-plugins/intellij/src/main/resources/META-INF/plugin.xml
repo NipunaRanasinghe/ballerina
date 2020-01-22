@@ -192,11 +192,11 @@
         <directoryProjectGenerator
                 implementation="io.ballerina.plugins.idea.BallerinaProjectGenerator"/> <!-- for small IDEs-->
         <applicationService
-                serviceImplementation="io.ballerina.plugins.idea.settings.experimental.BallerinaExperimentalFeatureSettings"/>
+                serviceImplementation="io.ballerina.plugins.idea.settings.langserver.experimental.BallerinaExperimentalFeatureSettings"/>
         <applicationService
-                serviceImplementation="io.ballerina.plugins.idea.settings.debuglogs.LangServerDebugLogsSettings"/>
+                serviceImplementation="io.ballerina.plugins.idea.settings.langserver.debuglogs.LangServerDebugLogsSettings"/>
         <projectService
-                serviceImplementation="io.ballerina.plugins.idea.settings.autodetect.BallerinaAutoDetectionSettings"/>
+                serviceImplementation="io.ballerina.plugins.idea.settings.langserver.autodetect.BallerinaAutoDetectionSettings"/>
         <preloadingActivity
                 implementation="io.ballerina.plugins.idea.preloading.BallerinaPreloadingActivity"
                 id="io.ballerina.plugins.idea.preloading.BallerinaPreloadingActivity"/>

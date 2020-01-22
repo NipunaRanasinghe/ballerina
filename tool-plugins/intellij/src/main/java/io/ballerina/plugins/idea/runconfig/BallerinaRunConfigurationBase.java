@@ -43,7 +43,7 @@ import com.intellij.util.containers.ContainerUtil;
 import io.ballerina.plugins.idea.BallerinaConstants;
 import io.ballerina.plugins.idea.sdk.BallerinaSdkService;
 import io.ballerina.plugins.idea.sdk.BallerinaSdkUtils;
-import io.ballerina.plugins.idea.settings.autodetect.BallerinaAutoDetectionSettings;
+import io.ballerina.plugins.idea.settings.langserver.autodetect.BallerinaAutoDetectionSettings;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

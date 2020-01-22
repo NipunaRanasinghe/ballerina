@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.ballerina.plugins.idea.settings.debuglogs;
+package io.ballerina.plugins.idea.settings.langserver.debuglogs;
 
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;

@@ -30,7 +30,7 @@ import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import io.ballerina.plugins.idea.sdk.BallerinaSdkUtils;
-import io.ballerina.plugins.idea.settings.autodetect.BallerinaAutoDetectionSettings;
+import io.ballerina.plugins.idea.settings.langserver.autodetect.BallerinaAutoDetectionSettings;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 

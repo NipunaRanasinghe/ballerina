@@ -25,7 +25,7 @@ import io.ballerina.plugins.idea.debugger.client.connection.BallerinaSocketStrea
 import io.ballerina.plugins.idea.debugger.client.connection.BallerinaStreamConnectionProvider;
 import io.ballerina.plugins.idea.preloading.OSUtils;
 import io.ballerina.plugins.idea.sdk.BallerinaSdkUtils;
-import io.ballerina.plugins.idea.settings.autodetect.BallerinaAutoDetectionSettings;
+import io.ballerina.plugins.idea.settings.langserver.autodetect.BallerinaAutoDetectionSettings;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.eclipse.lsp4j.debug.Capabilities;

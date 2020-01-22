@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.ballerina.plugins.idea.settings.experimental;
+package io.ballerina.plugins.idea.settings.langserver.experimental;
 
 import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.util.ui.FormBuilder;

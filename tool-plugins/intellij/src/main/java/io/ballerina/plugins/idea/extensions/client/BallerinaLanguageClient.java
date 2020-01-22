@@ -16,7 +16,7 @@
 package io.ballerina.plugins.idea.extensions.client;
 
 import com.intellij.openapi.diagnostic.Logger;
-import io.ballerina.plugins.idea.settings.debuglogs.LangServerDebugLogsSettings;
+import io.ballerina.plugins.idea.settings.langserver.debuglogs.LangServerDebugLogsSettings;
 import org.eclipse.lsp4j.MessageParams;
 import org.eclipse.lsp4j.MessageType;
 import org.wso2.lsp4intellij.client.ClientContext;

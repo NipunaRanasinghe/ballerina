@@ -41,8 +41,8 @@ import io.ballerina.plugins.idea.BallerinaLanguage;
 import io.ballerina.plugins.idea.project.BallerinaLibrariesService;
 import io.ballerina.plugins.idea.sdk.BallerinaSdkService;
 import io.ballerina.plugins.idea.sdk.BallerinaSdkUtils;
-import io.ballerina.plugins.idea.settings.autodetect.BallerinaAutoDetectionConfigurable;
-import io.ballerina.plugins.idea.settings.autodetect.BallerinaAutoDetectionSettings;
+import io.ballerina.plugins.idea.settings.langserver.autodetect.BallerinaAutoDetectionConfigurable;
+import io.ballerina.plugins.idea.settings.langserver.autodetect.BallerinaAutoDetectionSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

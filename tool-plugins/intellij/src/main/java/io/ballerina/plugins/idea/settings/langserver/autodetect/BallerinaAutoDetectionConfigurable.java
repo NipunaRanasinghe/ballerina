@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package io.ballerina.plugins.idea.settings.debuglogs;
+package io.ballerina.plugins.idea.settings.langserver.autodetect;
 
 import com.intellij.openapi.options.SearchableConfigurable;
+import com.intellij.openapi.project.Project;
 import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.UIUtil;
+import io.ballerina.plugins.idea.sdk.BallerinaSdkUtils;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,25 +33,26 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 /**
- * Adds enabling/disabling language server debug logs in settings.
+ * Adds enabling/disabling Ballerina home auto detection in settings.
  */
-public class LangServerDebugLogsConfigurable implements SearchableConfigurable {
+public class BallerinaAutoDetectionConfigurable implements SearchableConfigurable {
 
-    private JCheckBox myEnableDebugLogsCb;
-    private final LangServerDebugLogsSettings myLangServerDebugLogsSettings;
+    private JCheckBox myAutoDetectionCb;
+    private final BallerinaAutoDetectionSettings myBalHomeAutoDetectionSettings;
     private final boolean myIsDialog;
 
-    public LangServerDebugLogsConfigurable(boolean dialogMode) {
-        myLangServerDebugLogsSettings = LangServerDebugLogsSettings.getInstance();
+    public BallerinaAutoDetectionConfigurable(@NotNull Project project, boolean dialogMode) {
+        myBalHomeAutoDetectionSettings = BallerinaAutoDetectionSettings.getInstance(project);
         myIsDialog = dialogMode;
     }
 
     @Nullable
     @Override
     public JComponent createComponent() {
+
         FormBuilder builder = FormBuilder.createFormBuilder();
-        myEnableDebugLogsCb = new JCheckBox("Enable language server debug logs");
-        builder.addComponent(myEnableDebugLogsCb);
+        myAutoDetectionCb = new JCheckBox("Auto-Detect Ballerina Home");
+        builder.addComponent(myAutoDetectionCb);
         JPanel result = new JPanel(new BorderLayout());
         result.add(builder.getPanel(), BorderLayout.NORTH);
         if (myIsDialog) {
@@ -60,23 +63,24 @@ public class LangServerDebugLogsConfigurable implements SearchableConfigurable {
 
     @Override
     public boolean isModified() {
-        return myLangServerDebugLogsSettings.getIsLangServerDebugLogsEnabled() != myEnableDebugLogsCb.isSelected();
+        return myBalHomeAutoDetectionSettings.getIsAutoDetectionEnabled() != myAutoDetectionCb.isSelected();
     }
 
     @Override
     public void apply() {
-        myLangServerDebugLogsSettings.setIsLangServerDebugLogsEnabled(myEnableDebugLogsCb.isSelected());
+        myBalHomeAutoDetectionSettings.setIsAutoDetectionEnabled(myAutoDetectionCb.isSelected());
+        BallerinaSdkUtils.showRestartDialog(null);
     }
 
     @Override
     public void reset() {
-        myEnableDebugLogsCb.setSelected(myLangServerDebugLogsSettings.getIsLangServerDebugLogsEnabled());
+        myAutoDetectionCb.setSelected(myBalHomeAutoDetectionSettings.getIsAutoDetectionEnabled());
     }
 
     @NotNull
     @Override
     public String getId() {
-        return "langserver.debuglogs";
+        return "ballerina.home.autodetect";
     }
 
     @Nullable
@@ -88,7 +92,7 @@ public class LangServerDebugLogsConfigurable implements SearchableConfigurable {
     @Nls
     @Override
     public String getDisplayName() {
-        return "Language Server Debug Logs";
+        return "Ballerina Home Auto Detection";
     }
 
     @Nullable
@@ -99,7 +103,7 @@ public class LangServerDebugLogsConfigurable implements SearchableConfigurable {
 
     @Override
     public void disposeUIResources() {
-        UIUtil.dispose(myEnableDebugLogsCb);
-        myEnableDebugLogsCb = null;
+        UIUtil.dispose(myAutoDetectionCb);
+        myAutoDetectionCb = null;
     }
 }

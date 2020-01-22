@@ -14,47 +14,48 @@
  * limitations under the License.
  */
 
-package io.ballerina.plugins.idea.settings.autodetect;
+package io.ballerina.plugins.idea.settings.langserver.experimental;
 
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
-import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.intellij.util.xmlb.annotations.Attribute;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Ballerina home auto detection settings provider.
+ * Settings for ballerina experimental features.
  */
-@State(name = "BallerinaHomeAutoDetection", storages = @Storage(value = "editor.detect.ballerinaHome.xml"))
-public class BallerinaAutoDetectionSettings implements PersistentStateComponent<BallerinaAutoDetectionSettings> {
+@State(name = "BallerinaAllowExperimental",
+        storages = @Storage(value = "editor.allow.experimental.xml"))
+public class BallerinaExperimentalFeatureSettings implements PersistentStateComponent
+        <BallerinaExperimentalFeatureSettings> {
 
     @Attribute
-    private boolean autoDetectBalHome = true;
+    private boolean allowExperimental = false;
 
-    public static BallerinaAutoDetectionSettings getInstance(Project project) {
-        return ServiceManager.getService(project, BallerinaAutoDetectionSettings.class);
+    public static BallerinaExperimentalFeatureSettings getInstance() {
+        return ServiceManager.getService(BallerinaExperimentalFeatureSettings.class);
     }
 
     @Nullable
     @Override
-    public BallerinaAutoDetectionSettings getState() {
+    public BallerinaExperimentalFeatureSettings getState() {
         return this;
     }
 
     @Override
-    public void loadState(@NotNull BallerinaAutoDetectionSettings state) {
+    public void loadState(@NotNull BallerinaExperimentalFeatureSettings state) {
         XmlSerializerUtil.copyBean(state, this);
     }
 
-    public boolean getIsAutoDetectionEnabled() {
-        return autoDetectBalHome;
+    public boolean getAllowExperimental() {
+        return allowExperimental;
     }
 
-    public void setIsAutoDetectionEnabled(boolean autoDetectBalHome) {
-        this.autoDetectBalHome = autoDetectBalHome;
+    public void setAllowExperimental(boolean allowExperimental) {
+        this.allowExperimental = allowExperimental;
     }
 }
