@@ -33,7 +33,7 @@ import org.ballerinalang.debugadapter.launchrequest.LaunchFactory;
 import org.ballerinalang.debugadapter.terminator.OSUtils;
 import org.ballerinalang.debugadapter.terminator.TerminatorFactory;
 import org.ballerinalang.debugadapter.variable.VariableFactory;
-import org.ballerinalang.debugadapter.variable.VariableImpl;
+import org.ballerinalang.debugadapter.variable.BVariable;
 import org.ballerinalang.toml.model.Manifest;
 import org.eclipse.lsp4j.debug.Breakpoint;
 import org.eclipse.lsp4j.debug.Capabilities;
@@ -94,7 +94,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
-import static org.ballerinalang.debugadapter.PackageUtils.findProjectRoot;
+import static org.ballerinalang.debugadapter.utils.PackageUtils.findProjectRoot;
 import static org.eclipse.lsp4j.debug.OutputEventArgumentsCategory.STDERR;
 import static org.eclipse.lsp4j.debug.OutputEventArgumentsCategory.STDOUT;
 
@@ -341,7 +341,7 @@ public class JBallerinaDebugServer implements IDebugProtocolServer {
                 String varTypeStr = (value == null) ? "null" : value.type().name();
                 String name = entry.getKey();
 
-                VariableImpl variable = new VariableFactory().getVariable(value, varTypeStr, name);
+                BVariable variable = VariableFactory.getVariable(value, varTypeStr, name);
                 if (variable != null && variable.getChildVariables() != null) {
                     long variableReference = nextVarReference.getAndIncrement();
                     variable.getDapVariable().setVariablesReference(variableReference);
@@ -354,24 +354,21 @@ public class JBallerinaDebugServer implements IDebugProtocolServer {
             }).filter(Objects::nonNull).toArray(Variable[]::new);
         } else {
             try {
-                dapVariables = stackFrame.getValues(stackFrame.visibleVariables())
-                        .entrySet()
-                        .stream()
-                        .map(localVariableValueEntry -> {
+                dapVariables = stackFrame.getValues(stackFrame.visibleVariables()).entrySet().stream()
+                        .map(varValueEntry -> {
                             String varType;
                             try {
-                                varType = localVariableValueEntry.getKey().type().name();
+                                varType = varValueEntry.getKey().type().name();
                             } catch (ClassNotLoadedException e) {
-                                varType = localVariableValueEntry.getKey().toString();
+                                varType = varValueEntry.getKey().toString();
                             }
-                            String name = localVariableValueEntry.getKey() == null ? "" :
-                                    localVariableValueEntry.getKey().name();
+                            String name = varValueEntry.getKey() == null ? "" :
+                                    varValueEntry.getKey().name();
                             if (name.equals("__strand")) {
                                 return null;
                             }
 
-                            VariableImpl variable = new VariableFactory()
-                                    .getVariable(localVariableValueEntry.getValue(), varType, name);
+                            BVariable variable = VariableFactory.getVariable(varValueEntry.getValue(), varType, name);
                             if (variable != null && variable.getChildVariables() != null) {
                                 long variableReference = nextVarReference.getAndIncrement();
                                 variable.getDapVariable().setVariablesReference(variableReference);
@@ -469,8 +466,7 @@ public class JBallerinaDebugServer implements IDebugProtocolServer {
             Optional<Value> result = executionManager.evaluate(frame, args.getExpression());
             if (result.isPresent()) {
                 Value value = result.get();
-                VariableImpl variable =
-                        new VariableFactory().getVariable(value, value.type().toString(), args.getExpression());
+                BVariable variable = VariableFactory.getVariable(value, value.type().toString(), args.getExpression());
                 if (variable != null) {
                     Variable dapVariable = variable.getDapVariable();
                     long variableReference = nextVarReference.getAndIncrement();
