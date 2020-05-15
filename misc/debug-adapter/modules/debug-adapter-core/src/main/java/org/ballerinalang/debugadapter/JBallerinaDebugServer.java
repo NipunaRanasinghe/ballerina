@@ -32,8 +32,9 @@ import org.ballerinalang.debugadapter.launchrequest.Launch;
 import org.ballerinalang.debugadapter.launchrequest.LaunchFactory;
 import org.ballerinalang.debugadapter.terminator.OSUtils;
 import org.ballerinalang.debugadapter.terminator.TerminatorFactory;
-import org.ballerinalang.debugadapter.variable.VariableFactory;
+import org.ballerinalang.debugadapter.variable.BCompoundVariable;
 import org.ballerinalang.debugadapter.variable.BVariable;
+import org.ballerinalang.debugadapter.variable.VariableFactory;
 import org.ballerinalang.toml.model.Manifest;
 import org.eclipse.lsp4j.debug.Breakpoint;
 import org.eclipse.lsp4j.debug.Capabilities;
@@ -342,13 +343,12 @@ public class JBallerinaDebugServer implements IDebugProtocolServer {
                 String name = entry.getKey();
 
                 BVariable variable = VariableFactory.getVariable(value, varTypeStr, name);
-                if (variable != null && variable.getChildVariables() != null) {
-                    long variableReference = nextVarReference.getAndIncrement();
-                    variable.getDapVariable().setVariablesReference(variableReference);
-                    this.childVariables.put(variableReference, variable.getChildVariables());
-                }
                 if (variable == null) {
                     return null;
+                } else if (variable instanceof BCompoundVariable) {
+                    long variableReference = nextVarReference.getAndIncrement();
+                    variable.getDapVariable().setVariablesReference(variableReference);
+                    this.childVariables.put(variableReference, ((BCompoundVariable) variable).getChildVariables());
                 }
                 return variable.getDapVariable();
             }).filter(Objects::nonNull).toArray(Variable[]::new);
@@ -369,13 +369,14 @@ public class JBallerinaDebugServer implements IDebugProtocolServer {
                             }
 
                             BVariable variable = VariableFactory.getVariable(varValueEntry.getValue(), varType, name);
-                            if (variable != null && variable.getChildVariables() != null) {
-                                long variableReference = nextVarReference.getAndIncrement();
-                                variable.getDapVariable().setVariablesReference(variableReference);
-                                this.childVariables.put(variableReference, variable.getChildVariables());
-                            }
                             if (variable == null) {
                                 return null;
+                            }
+                            if (variable instanceof BCompoundVariable) {
+                                long variableReference = nextVarReference.getAndIncrement();
+                                variable.getDapVariable().setVariablesReference(variableReference);
+                                this.childVariables.put(variableReference, ((BCompoundVariable) variable)
+                                        .getChildVariables());
                             }
                             return variable.getDapVariable();
                         }).filter(Objects::nonNull).toArray(Variable[]::new);
@@ -464,20 +465,26 @@ public class JBallerinaDebugServer implements IDebugProtocolServer {
         try {
             com.sun.jdi.StackFrame frame = stackframesMap.get(args.getFrameId());
             Optional<Value> result = executionManager.evaluate(frame, args.getExpression());
-            if (result.isPresent()) {
-                Value value = result.get();
-                BVariable variable = VariableFactory.getVariable(value, value.type().toString(), args.getExpression());
-                if (variable != null) {
-                    Variable dapVariable = variable.getDapVariable();
-                    long variableReference = nextVarReference.getAndIncrement();
-                    dapVariable.setVariablesReference(variableReference);
-                    this.childVariables.put(variableReference, variable.getChildVariables());
-                    response.setResult(dapVariable.getValue());
-                    response.setType(dapVariable.getType());
-                    response.setIndexedVariables(dapVariable.getIndexedVariables());
-                    response.setNamedVariables(dapVariable.getNamedVariables());
-                    response.setVariablesReference(dapVariable.getVariablesReference());
-                }
+            if (!result.isPresent()) {
+                return CompletableFuture.completedFuture(response);
+            }
+
+            Value value = result.get();
+            BVariable variable = VariableFactory.getVariable(value, value.type().toString(), args.getExpression());
+            if (variable == null) {
+                return CompletableFuture.completedFuture(response);
+            }
+
+            Variable dapVariable = variable.getDapVariable();
+            long variableReference = nextVarReference.getAndIncrement();
+            dapVariable.setVariablesReference(variableReference);
+            response.setResult(dapVariable.getValue());
+            response.setType(dapVariable.getType());
+            response.setIndexedVariables(dapVariable.getIndexedVariables());
+            response.setNamedVariables(dapVariable.getNamedVariables());
+            response.setVariablesReference(dapVariable.getVariablesReference());
+            if (variable instanceof BCompoundVariable) {
+                this.childVariables.put(variableReference, ((BCompoundVariable) variable).getChildVariables());
             }
             return CompletableFuture.completedFuture(response);
         } catch (Exception e) {
