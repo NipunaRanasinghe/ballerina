@@ -69,18 +69,16 @@ public class VariableFactory {
 
         Type valueType = value.type();
         String valueTypeName = valueType.name();
-        if (valueTypeName.equalsIgnoreCase(JVMValueType.LONG.getString())) {
+        if (valueTypeName.toLowerCase().endsWith(JVMValueType.LONG.getString())) {
             return new BInt(value, dapVariable);
-        } else if (valueTypeName.equalsIgnoreCase(JVMValueType.BOOLEAN.getString())) {
+        } else if (valueTypeName.toLowerCase().endsWith(JVMValueType.BOOLEAN.getString())) {
             return new BBoolean(value, dapVariable);
-        } else if (valueTypeName.equalsIgnoreCase(JVMValueType.DOUBLE.getString())) {
+        } else if (valueTypeName.toLowerCase().endsWith(JVMValueType.DOUBLE.getString())) {
             return new BFloat(value, dapVariable);
         } else if (parentTypeName.equalsIgnoreCase(JVMValueType.DECIMAL.getString())) {
             return new BDecimal(value, dapVariable);
         } else if (parentTypeName.equalsIgnoreCase(JVMValueType.STRING.getString())) {
             return new BString(value, dapVariable);
-        } else if (parentTypeName.contains("$value$")) {
-            return new BMap(value, dapVariable);
         } else if (parentTypeName.equalsIgnoreCase(JVMValueType.OBJECT_TYPE.getString())) {
             return new BObjectType(value, dapVariable);
         } else if (parentTypeName.equalsIgnoreCase(JVMValueType.OBJECT_VALUE.getString())) {
@@ -95,27 +93,13 @@ public class VariableFactory {
         } else if (parentTypeName.contains(JVMValueType.MAP_VALUE.getString())
                 && valueTypeName.contains(JVMValueType.MAP_VALUE.getString())) {
             return new BMap(value, dapVariable);
-        } else if (parentTypeName.contains(JVMValueType.MAP_VALUE.getString())) {
+        } else if (parentTypeName.contains(JVMValueType.MAP_VALUE.getString())
+                || (parentTypeName.contains("$value$") && valueTypeName.contains("$value$"))) {
             return new BRecord(value, dapVariable);
-        } else if (parentTypeName.contains(JVMValueType.OBJECT.getString())) {
-            dapVariable.setType("object");
-            if (valueTypeName.equalsIgnoreCase(JVMValueType.ARRAY_VALUE.getString())) {
-                return new BArray(value, dapVariable);
-            } else if (valueTypeName.equalsIgnoreCase(JVMValueType.LONG.getString())) {
-                return new BInt(value, dapVariable);
-            } else if (valueTypeName.equalsIgnoreCase(JVMValueType.BOOLEAN.getString())) {
-                return new BBoolean(value, dapVariable);
-            } else if (valueTypeName.equalsIgnoreCase(JVMValueType.DOUBLE.getString())) {
-                return new BFloat(value, dapVariable);
-            } else if (valueTypeName.equalsIgnoreCase(JVMValueType.STRING.getString())) {
-                return new BString(value, dapVariable);
-            } else if (valueTypeName.equalsIgnoreCase(JVMValueType.ERROR_VALUE.getString())) {
-                return new BError(value, dapVariable);
-            } else if (valueTypeName.equalsIgnoreCase(JVMValueType.XML_ITEM.getString())) {
-                // TODO: complete implementation
-                dapVariable.setType("xml");
-                return new BXmlItem(value, dapVariable);
-            }
+        } else if (valueTypeName.equalsIgnoreCase(JVMValueType.ERROR_VALUE.getString())) {
+            return new BError(value, dapVariable);
+        } else if (valueTypeName.equalsIgnoreCase(JVMValueType.XML_ITEM.getString())) {
+            return new BXmlItem(value, dapVariable);
         }
 
         // If the variable doesn't match any of the above types, returns as a variable with type "unknown".

@@ -30,7 +30,7 @@ public class BDecimal extends BPrimitiveVariable {
     private final ObjectReferenceImpl jvmValueRef;
 
     public BDecimal(Value value, Variable dapVariable) {
-         this.jvmValueRef = value instanceof ObjectReferenceImpl ? (ObjectReferenceImpl) value : null;
+        this.jvmValueRef = value instanceof ObjectReferenceImpl ? (ObjectReferenceImpl) value : null;
         dapVariable.setType(BVariableType.DECIMAL.getString());
         dapVariable.setValue(this.getValue());
         this.setDapVariable(dapVariable);
@@ -38,6 +38,7 @@ public class BDecimal extends BPrimitiveVariable {
 
     @Override
     public String getValue() {
-        return jvmValueRef.toString();
+        // Todo - how to extract value?
+        return "unknown";
     }
 }
