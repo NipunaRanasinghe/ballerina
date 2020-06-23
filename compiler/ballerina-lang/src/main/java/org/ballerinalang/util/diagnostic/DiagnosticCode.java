@@ -425,6 +425,7 @@ public enum DiagnosticCode {
 
     // Streaming related codes
     INVALID_STREAM_CONSTRUCTOR("invalid.stream.constructor"),
+    INVALID_STREAM_CONSTRUCTOR_EXP_TYPE("invalid.stream.constructor.expected.type"),
     NOT_ALLOWED_STREAM_USAGE_WITH_FROM("invalid.stream.usage.with.from"),
     ERROR_TYPE_EXPECTED("error.type.expected"),
     MISSING_REQUIRED_METHOD_NEXT("missing.required.method.next"),
@@ -556,6 +557,8 @@ public enum DiagnosticCode {
     INVALID_RAW_TEMPLATE_ASSIGNMENT("invalid.raw.template.assignment"),
     INVALID_NUM_FIELDS("invalid.number.of.fields"),
     METHODS_NOT_ALLOWED("methods.not.allowed"),
+
+    COMPILER_PLUGIN_ERROR("compiler.plugin.crashed"),
     ;
     private String value;
 
