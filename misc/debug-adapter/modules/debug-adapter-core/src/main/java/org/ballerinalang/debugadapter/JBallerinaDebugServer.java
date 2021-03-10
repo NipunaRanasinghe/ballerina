@@ -281,7 +281,6 @@ public class JBallerinaDebugServer implements IDebugProtocolServer {
             activeThread = getAllThreads().get(args.getThreadId());
             StackFrame[] validFrames = activeThread.frames().stream()
                     .map(this::toDapStackFrame)
-                    .filter(Objects::nonNull)
                     .filter(JBallerinaDebugServer::isValidFrame)
                     .toArray(StackFrame[]::new);
 
@@ -521,6 +520,7 @@ public class JBallerinaDebugServer implements IDebugProtocolServer {
         closeQuietly(parent.getInputStream());
         closeQuietly(parent.getOutputStream());
         closeQuietly(parent.getErrorStream());
+
         // Kills the descendants of the process. The descendants of a process are the children
         // of the process and the descendants of those children, recursively.
         parent.descendants().forEach(processHandle -> {
@@ -529,6 +529,7 @@ public class JBallerinaDebugServer implements IDebugProtocolServer {
                 processHandle.destroyForcibly();
             }
         });
+
         // Kills the parent process. Whether the process represented by this Process object will be normally
         // terminated or not, is implementation dependent.
         parent.destroy();
@@ -791,7 +792,7 @@ public class JBallerinaDebugServer implements IDebugProtocolServer {
      * @return true if its a valid ballerina frame
      */
     private static boolean isValidFrame(StackFrame stackFrame) {
-        return stackFrame.getSource() != null && stackFrame.getLine() > 0;
+        return stackFrame != null && stackFrame.getSource() != null && stackFrame.getLine() > 0;
     }
 
     /**
