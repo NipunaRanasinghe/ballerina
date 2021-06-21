@@ -50,6 +50,9 @@ configurations {
     debugAdapterLib {
         transitive false
     }
+    debugAdapterRt {
+        transitive false
+    }
     docerina
     bin
     bir
@@ -135,6 +138,8 @@ dependencies {
     debugAdapterLib project(path: ':debug-adapter:debug-adapter-core', configuration: 'libs')
     debugAdapterLib project(':debug-adapter:debug-adapter-cli')
     debugAdapterLib project(':debug-adapter:debug-adapter-core')
+    debugAdapterRt project(':debug-adapter:debug-adapter-runtime')
+    distBal project(path: ':debug-adapter:debug-adapter-runtime', configuration: 'distributionBala')
 
     balSource project(path: ':jballerina', configuration: 'source')
 
@@ -346,6 +351,13 @@ def copyDebugAdapterLibsSpec = {
      }
 }
 
+def copyDebugAdapterRuntimeSpec = {
+    path -> copySpec {
+        from configurations.debugAdapterRt
+        into(path + 'bre/lib')
+    }
+}
+
 def copyBallerinaZipSpec = {
     path -> copySpec {
         configurations.ballerinaZip.asFileTree.each {
@@ -445,6 +457,7 @@ task createZip(type: Zip) {
     with copyBallerinaZipSpec(basePath)
     with copyDebugAdapterLibsSpec(basePath)
     with copyDebugAdapterLauncher(basePath)
+    with copyDebugAdapterRuntimeSpec(basePath)
     with copyCompletionFile(basePath)
     with apiDocsSpec(basePath)
     with copyStaticSpec(basePath)
@@ -471,6 +484,7 @@ task updateBalHome(type: Copy) {
     with copyBallerinaZipSpec(installDir)
     with copyDebugAdapterLibsSpec(installDir)
     with copyDebugAdapterLauncher(installDir)
+    with copyDebugAdapterRuntimeSpec(installDir)
     with copyCompletionFile(installDir)
     with apiDocsSpec(installDir)
     with copyStaticSpec(installDir)
@@ -499,6 +513,7 @@ task createDistribution(type: Copy) {
     with copyBallerinaZipSpec("")
     with copyDebugAdapterLibsSpec("")
     with copyDebugAdapterLauncher("")
+    with copyDebugAdapterRuntimeSpec("")
     with copyCompletionFile("")
     with apiDocsSpec("")
     with copyStaticSpec("")

@@ -137,11 +137,7 @@ task copyInteropImports(type: Copy) {
 }
 
 ext {
-    if (project.projectDir.name == "debug-adapter-runtime") {
-        modName = "debugger_helpers"
-    } else {
-        modName = project.projectDir.name
-    }
+    modName = project.projectDir.name
 }
 
 def ballerinaConfigFile = new File("${project.projectDir}/src/main/ballerina/Ballerina.toml")

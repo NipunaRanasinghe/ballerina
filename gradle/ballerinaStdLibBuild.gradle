@@ -142,12 +142,14 @@ task copyInteropImports(type: Copy) {
 ext {
     if (project.projectDir.name == "testerina-core") {
         modName = "test"
-    } else if (project.projectDir.name == 'langserver-stdlib'){
+    } else if (project.projectDir.name == 'langserver-stdlib') {
         modName = 'module1'
-    } else if (project.projectDir.name == 'observability-test-utils'){
+    } else if (project.projectDir.name == 'observability-test-utils') {
         modName = 'testobserve'
     } else if (project.projectDir.name == 'observe-internal') {
         modName = 'observe'
+    } else if (project.projectDir.name == "debug-adapter-runtime") {
+        modName = "debug"
     } else {
         modName = project.projectDir.name
     }
