@@ -75,7 +75,7 @@ public class NewExpressionEvaluator extends Evaluator {
             if (syntaxNode instanceof ImplicitNewExpressionNode) {
                 throw new EvaluationException(String.format(EvaluationExceptionKind.CUSTOM_ERROR.getString(),
                         "Implicit new expressions are not supported by the evaluator. Try using the equivalent " +
-                                "explicit expression by specifying the class descriptor instead."));
+                                "explicit expression by specifying the class descriptor (i.e. 'new T()') instead."));
             }
 
             String className = ((ExplicitNewExpressionNode) syntaxNode).typeDescriptor().toSourceCode();
