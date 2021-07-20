@@ -79,7 +79,7 @@ public class ExpressionEvaluationNegativeTest extends ExpressionEvaluationBaseTe
 
         // New expressions with invalid number of args
         debugTestRunner.assertEvaluationError(context, "new Location()", String.format(EvaluationExceptionKind
-                .CUSTOM_ERROR.getString(), "missing required parameter 'city'."));
+                .CUSTOM_ERROR.getString(), "missing required parameter 'country'."));
 
     }
 

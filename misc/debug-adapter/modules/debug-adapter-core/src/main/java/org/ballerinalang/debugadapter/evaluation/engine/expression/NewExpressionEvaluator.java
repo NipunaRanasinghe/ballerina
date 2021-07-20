@@ -54,7 +54,8 @@ public class NewExpressionEvaluator extends Evaluator {
     private final List<Map.Entry<String, Evaluator>> argEvaluators;
     private static final String OBJECT_INIT_METHOD_NAME = "init";
 
-    public NewExpressionEvaluator(SuspendedContext context, ExpressionNode newExpressionNode, List<Map.Entry<String, Evaluator>> argEvaluators) {
+    public NewExpressionEvaluator(SuspendedContext context, ExpressionNode newExpressionNode, List<Map.Entry<String,
+            Evaluator>> argEvaluators) {
         super(context);
         this.syntaxNode = newExpressionNode;
         this.argEvaluators = argEvaluators;
