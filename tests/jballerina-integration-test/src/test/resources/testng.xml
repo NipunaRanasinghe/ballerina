@@ -186,7 +186,7 @@
 <!--        </classes>-->
 <!--    </test>-->
 
-    <test name="ballerina-data-streaming-tests" parallel="false">
+   <!-- <test name="ballerina-data-streaming-tests" parallel="false">
         <groups>
             <run>
                 <exclude name="brokenOnXMLChange"/>
@@ -246,7 +246,7 @@
         <parameter name="enableJBallerinaTests" value="true" />
         <classes>
             <class name="org.ballerinalang.test.logging.LogAPITestCase" />
-<!--            <class name="org.ballerinalang.test.logging.BadSadTests" />-->
+&lt;!&ndash;            <class name="org.ballerinalang.test.logging.BadSadTests" />&ndash;&gt;
         </classes>
     </test>
 
@@ -272,7 +272,7 @@
     <test name="ballerina-docerina-tests" parallel="false">
         <parameter name="enableJBallerinaTests" value="true" />
         <classes>
-<!--            <class name="org.ballerinalang.test.docerina.BallerinaApiDocsTestCase" />-->
+&lt;!&ndash;            <class name="org.ballerinalang.test.docerina.BallerinaApiDocsTestCase" />&ndash;&gt;
         </classes>
     </test>
 
@@ -306,6 +306,12 @@
         <parameter name="enableJBallerinaTests" value="true" />
         <classes>
             <class name="org.ballerinalang.test.troubleshoot.StrandDumpTest" />
+        </classes>
+    </test>-->
+    <test name="ballerina-semver-validator-tests" parallel="false">
+        <parameter name="enableJBallerinaTests" value="true" />
+        <classes>
+            <class name="org.ballerinalang.test.semver.SemverVersionTest" />
         </classes>
     </test>
 </suite>

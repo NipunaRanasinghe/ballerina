@@ -184,5 +184,49 @@
         }
       ]
     }
+  },
+  {
+    "description": "Remove public qualifier , add documentation",
+    "oldCode": "public int id=1;",
+    "newCode": "#documentation\nint id=1;",
+    "expectedOutput": {
+      "kind": "package",
+      "type": "modified",
+      "versionImpact": "major",
+      "childDiffs": [
+        {
+          "kind": "module",
+          "type": "modified",
+          "versionImpact": "major",
+          "childDiffs": [
+            {
+              "kind": "module variable",
+              "type": "modified",
+              "versionImpact": "major",
+              "childDiffs": [
+                {
+                  "kind": "documentation",
+                  "type": "new",
+                  "versionImpact": "patch",
+                  "message": "documentation is added"
+                },
+                {
+                  "kind": "unknown",
+                  "type": "removed",
+                  "versionImpact": "major",
+                  "message": "'public' qualifier is removed from variable 'id'"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "description": "Change the value of non public variable",
+    "oldCode": " int id=1;",
+    "newCode": " int id=2;",
+    "expectedOutput": {}
   }
 ]

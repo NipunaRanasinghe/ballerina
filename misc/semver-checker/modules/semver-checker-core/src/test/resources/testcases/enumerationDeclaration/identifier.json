@@ -1,0 +1,20 @@
+[
+  {
+    "description": "Change a enumeration name",
+    "oldCode": "enum hello{Red}",
+    "newCode": "enum hi{Red}",
+    "expectedOutput": {}
+  },
+  {
+    "description": "Remove a enumeration",
+    "oldCode": "enum hello{}",
+    "newCode": "",
+    "expectedOutput": {}
+  },
+  {
+    "description": "Add a new enumeration",
+    "oldCode": "",
+    "newCode": "enum hi{}",
+    "expectedOutput": {}
+  }
+]

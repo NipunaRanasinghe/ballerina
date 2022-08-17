@@ -1,0 +1,14 @@
+[
+  {
+    "description": "Add public qualifier",
+    "oldCode": "enum color{\n\tRed,\n\tBlue,\n\tGreen\n}",
+    "newCode": "public enum color{\n\tRed,\n\tBlue,\n\tGreen\n}",
+    "expectedOutput": {}
+  },
+  {
+    "description": "Remove public qualifier",
+    "oldCode": "public enum color{\n\tRed,\n\tBlue,\n\tGreen\n}",
+    "newCode": "enum color{\n\tRed,\n\tBlue,\n\tGreen\n}",
+    "expectedOutput": {}
+  }
+]

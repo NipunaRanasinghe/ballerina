@@ -1,0 +1,14 @@
+[
+  {
+    "description": "Remove public qualifier",
+    "oldCode": "public listener http:Listener hello = new (8080);",
+    "newCode": "listener http:Listener hello = new (8080);",
+    "expectedOutput": {}
+  },
+  {
+    "description": "Add public qualifier",
+    "oldCode": "listener http:Listener hello = new (8080);",
+    "newCode": "public listener http:Listener hello = new (8080);",
+    "expectedOutput": {}
+  }
+]

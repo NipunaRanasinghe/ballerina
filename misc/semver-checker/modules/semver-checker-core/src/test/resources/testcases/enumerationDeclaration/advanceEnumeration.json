@@ -1,0 +1,26 @@
+[
+  {
+    "description": "Remove enum member , Remove public qualifier",
+    "oldCode": "public enum color{\n\tRed,\n\tBlue,\n\tGreen\n}",
+    "newCode": "enum color{\n\tRed,\n\tBlue\n}",
+    "expectedOutput": {}
+  },
+  {
+    "description": "Add annotation , add a enum member",
+    "oldCode": "public enum color{\n\tRed,\n\tBlue\n}",
+    "newCode": "@tainted\npublic enum color{\n\tRed,\n\tBlue,\n\tGreen\n}",
+    "expectedOutput": {}
+  },
+  {
+    "description": "Remove documentation , Add public qualifier",
+    "oldCode": "#Documentation\nenum color{\n\tRed,\n\tBlue,\n\tGreen\n}",
+    "newCode": "public enum color{\n\tRed,\n\tBlue,\n\tGreen\n}",
+    "expectedOutput": {}
+  },
+  {
+    "description": "Add a enum member , Remove a enum member , Add annotation , Remove documentation",
+    "oldCode": "#Documentation\npublic enum color{\n\tRed,\n\tBlue,\n\tGreen\n}",
+    "newCode": "@tainted\npublic enum color{\n\tRed,\n\tBlue,\n\tYellow\n}",
+    "expectedOutput": {}
+  }
+]

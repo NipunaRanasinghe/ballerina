@@ -1,0 +1,14 @@
+[
+  {
+    "description": "Change the listener expression",
+    "oldCode": "public listener http:Listener hello = new (8080);",
+    "newCode": "public listener http:Listener hello = new (8000);",
+    "expectedOutput": {}
+  },
+  {
+    "description": "Change the hardcoded listener expression to a variable reference",
+    "oldCode": "public listener http:Listener hello = new (8080);",
+    "newCode": "int port = 8080;\npublic listener http:Listener hello = new (port);",
+    "expectedOutput": {}
+  }
+]

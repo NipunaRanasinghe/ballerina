@@ -1,0 +1,20 @@
+[
+  {
+    "description": "Add documentation",
+    "oldCode": "public listener http:Listener hello = new (8080);",
+    "newCode": "#documentation\npublic listener http:Listener hello = new (8080);",
+    "expectedOutput": {}
+  },
+  {
+    "description": "Remove documentation",
+    "oldCode": "#documentation\npublic listener http:Listener hello = new (8080);",
+    "newCode": "public listener http:Listener hello = new (8080);",
+    "expectedOutput": {}
+  },
+  {
+    "description": "Modify documentation",
+    "oldCode": "#documentation\npublic listener http:Listener hello = new (8080);\n",
+    "newCode": "#Listener declaration\npublic listener http:Listener hello = new (8080);\n",
+    "expectedOutput": {}
+  }
+]

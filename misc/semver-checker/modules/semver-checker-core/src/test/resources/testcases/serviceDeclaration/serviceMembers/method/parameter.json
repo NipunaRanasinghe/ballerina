@@ -279,6 +279,318 @@
     }
   },
   {
+    "description": "Add default param",
+    "oldCode": "service /demo on new http:Listener(8080){\n\tpublic function hello(){\n} \n}",
+    "newCode": "service /demo on new http:Listener(8080){\n\tpublic function hello(int id = 7) {\n} \n}",
+    "expectedOutput": {
+      "kind": "package",
+      "type": "modified",
+      "versionImpact": "minor",
+      "childDiffs": [
+        {
+          "kind": "module",
+          "type": "modified",
+          "versionImpact": "minor",
+          "childDiffs": [
+            {
+              "kind": "service",
+              "type": "modified",
+              "versionImpact": "minor",
+              "childDiffs": [
+                {
+                  "kind": "function",
+                  "type": "modified",
+                  "versionImpact": "minor",
+                  "childDiffs": [
+                    {
+                      "kind": "unknown",
+                      "type": "new",
+                      "versionImpact": "minor",
+                      "message": "new defaultable parameter 'id' is added"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "description": "Remove default param",
+    "oldCode": "service /demo on new http:Listener(8080){\n\tpublic function hello(int id = 2){\n} \n}",
+    "newCode": "service /demo on new http:Listener(8080){\n\tpublic function hello() {\n} \n}",
+    "expectedOutput": {
+      "kind": "package",
+      "type": "modified",
+      "versionImpact": "major",
+      "childDiffs": [
+        {
+          "kind": "module",
+          "type": "modified",
+          "versionImpact": "major",
+          "childDiffs": [
+            {
+              "kind": "service",
+              "type": "modified",
+              "versionImpact": "major",
+              "childDiffs": [
+                {
+                  "kind": "function",
+                  "type": "modified",
+                  "versionImpact": "major",
+                  "childDiffs": [
+                    {
+                      "kind": "unknown",
+                      "type": "removed",
+                      "versionImpact": "major",
+                      "message": "defaultable parameter 'id' is removed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "description": "Add rest param",
+    "oldCode": "service /demo on new http:Listener(8080){\n\tpublic function hello(){\n} \n}",
+    "newCode": "service /demo on new http:Listener(8080){\n\tpublic function hello(int ... id) {\n} \n}",
+    "expectedOutput": {
+      "kind": "package",
+      "type": "modified",
+      "versionImpact": "minor",
+      "childDiffs": [
+        {
+          "kind": "module",
+          "type": "modified",
+          "versionImpact": "minor",
+          "childDiffs": [
+            {
+              "kind": "service",
+              "type": "modified",
+              "versionImpact": "minor",
+              "childDiffs": [
+                {
+                  "kind": "function",
+                  "type": "modified",
+                  "versionImpact": "minor",
+                  "childDiffs": [
+                    {
+                      "kind": "unknown",
+                      "type": "new",
+                      "versionImpact": "minor",
+                      "message": "new rest parameter 'id' is added"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "description": "Remove rest param",
+    "oldCode": "service /demo on new http:Listener(8080){\n\tpublic function hello(int ... id){\n} \n}",
+    "newCode": "service /demo on new http:Listener(8080){\n\tpublic function hello() {\n} \n}",
+    "expectedOutput": {
+      "kind": "package",
+      "type": "modified",
+      "versionImpact": "major",
+      "childDiffs": [
+        {
+          "kind": "module",
+          "type": "modified",
+          "versionImpact": "major",
+          "childDiffs": [
+            {
+              "kind": "service",
+              "type": "modified",
+              "versionImpact": "major",
+              "childDiffs": [
+                {
+                  "kind": "function",
+                  "type": "modified",
+                  "versionImpact": "major",
+                  "childDiffs": [
+                    {
+                      "kind": "unknown",
+                      "type": "removed",
+                      "versionImpact": "major",
+                      "message": "rest parameter 'id' is removed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "description": "Change Kind from default to rest",
+    "oldCode": "service /demo on new http:Listener(8080){\n\tpublic function hello(int id = 1){\n} \n}",
+    "newCode": "service /demo on new http:Listener(8080){\n\tpublic function hello(int ... id) {\n} \n}",
+    "expectedOutput": {
+      "kind": "package",
+      "type": "modified",
+      "versionImpact": "major",
+      "childDiffs": [
+        {
+          "kind": "module",
+          "type": "modified",
+          "versionImpact": "major",
+          "childDiffs": [
+            {
+              "kind": "service",
+              "type": "modified",
+              "versionImpact": "major",
+              "childDiffs": [
+                {
+                  "kind": "function",
+                  "type": "modified",
+                  "versionImpact": "major",
+                  "childDiffs": [
+                    {
+                      "kind": "unknown",
+                      "type": "modified",
+                      "versionImpact": "major",
+                      "message": "kind of parameter 'id' is changed from 'DEFAULTABLE_PARAM' to 'REST_PARAM'"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "description": "Change Kind from required to rest",
+    "oldCode": "service /demo on new http:Listener(8080){\n\tpublic function hello(int id){\n} \n}",
+    "newCode": "service /demo on new http:Listener(8080){\n\tpublic function hello(int ... id) {\n} \n}",
+    "expectedOutput": {
+      "kind": "package",
+      "type": "modified",
+      "versionImpact": "major",
+      "childDiffs": [
+        {
+          "kind": "module",
+          "type": "modified",
+          "versionImpact": "major",
+          "childDiffs": [
+            {
+              "kind": "service",
+              "type": "modified",
+              "versionImpact": "major",
+              "childDiffs": [
+                {
+                  "kind": "function",
+                  "type": "modified",
+                  "versionImpact": "major",
+                  "childDiffs": [
+                    {
+                      "kind": "unknown",
+                      "type": "modified",
+                      "versionImpact": "major",
+                      "message": "kind of parameter 'id' is changed from 'REQUIRED_PARAM' to 'REST_PARAM'"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "description": "Change Kind from rest to default",
+    "oldCode": "service /demo on new http:Listener(8080){\n\tpublic function hello(int ... id){\n} \n}",
+    "newCode": "service /demo on new http:Listener(8080){\n\tpublic function hello(int id = 1) {\n} \n}",
+    "expectedOutput": {
+      "kind": "package",
+      "type": "modified",
+      "versionImpact": "major",
+      "childDiffs": [
+        {
+          "kind": "module",
+          "type": "modified",
+          "versionImpact": "major",
+          "childDiffs": [
+            {
+              "kind": "service",
+              "type": "modified",
+              "versionImpact": "major",
+              "childDiffs": [
+                {
+                  "kind": "function",
+                  "type": "modified",
+                  "versionImpact": "major",
+                  "childDiffs": [
+                    {
+                      "kind": "unknown",
+                      "type": "modified",
+                      "versionImpact": "major",
+                      "message": "kind of parameter 'id' is changed from 'REST_PARAM' to 'DEFAULTABLE_PARAM'"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "description": "Change Kind from rest to required",
+    "oldCode": "service /demo on new http:Listener(8080){\n\tpublic function hello(int ... id){\n} \n}",
+    "newCode": "service /demo on new http:Listener(8080){\n\tpublic function hello(int id) {\n} \n}",
+    "expectedOutput": {
+      "kind": "package",
+      "type": "modified",
+      "versionImpact": "major",
+      "childDiffs": [
+        {
+          "kind": "module",
+          "type": "modified",
+          "versionImpact": "major",
+          "childDiffs": [
+            {
+              "kind": "service",
+              "type": "modified",
+              "versionImpact": "major",
+              "childDiffs": [
+                {
+                  "kind": "function",
+                  "type": "modified",
+                  "versionImpact": "major",
+                  "childDiffs": [
+                    {
+                      "kind": "unknown",
+                      "type": "modified",
+                      "versionImpact": "major",
+                      "message": "kind of parameter 'id' is changed from 'REST_PARAM' to 'REQUIRED_PARAM'"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
     "description": "Add parameter annotation to a method.",
     "oldCode": "service /demo on new http:Listener(8080){\n\tpublic function hello(string id){\n} \n}",
     "newCode": "service /demo on new http:Listener(8080){\n\tpublic function hello(@tainted string  id) {\n} \n}",

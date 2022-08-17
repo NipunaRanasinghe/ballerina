@@ -1,0 +1,14 @@
+[
+  {
+    "description": "Change the type descriptor in a module listener declaration(http to udp)",
+    "oldCode": "public listener http:Listener hello = new (8080);",
+    "newCode": "public listener udp:Listener hello = new (8080);\n",
+    "expectedOutput": {}
+  },
+  {
+    "description": "Change the type descriptor in a module listener declaration(udp to http)",
+    "oldCode": "public listener udp:Listener hello = new (8080);",
+    "newCode": "public listener http:Listener hello = new (8080);",
+    "expectedOutput": {}
+  }
+]

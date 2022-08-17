@@ -1,0 +1,20 @@
+[
+  {
+    "description": "Add Annotation",
+    "oldCode": "public enum color{\n\tRed,\n\tBlue,\n\tGreen\n}",
+    "newCode": "@tainted\npublic enum color{\n\tRed,\n\tBlue,\n\tGreen\n}",
+    "expectedOutput": {}
+  },
+  {
+    "description": "Remove Annotation",
+    "oldCode": "@tainted\npublic enum color{\n\tRed,\n\tBlue,\n\tGreen\n}",
+    "newCode": "public enum color{\n\tRed,\n\tBlue,\n\tGreen\n}",
+    "expectedOutput": {}
+  },
+  {
+    "description": "Modify Annotation",
+    "oldCode": "@deprecated\npublic enum color{\n\tRed,\n\tBlue,\n\tGreen\n}",
+    "newCode": "@tainted\npublic enum color{\n\tRed,\n\tBlue,\n\tGreen\n}",
+    "expectedOutput": {}
+  }
+]

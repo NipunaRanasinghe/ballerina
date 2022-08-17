@@ -285,6 +285,318 @@
     }
   },
   {
+    "description": "Add default param",
+    "oldCode": "public class Employee{\npublic function add(){}\n}",
+    "newCode": "public class Employee{\npublic function add(int y = 5){}\n}",
+    "expectedOutput": {
+      "kind": "package",
+      "type": "modified",
+      "versionImpact": "minor",
+      "childDiffs": [
+        {
+          "kind": "module",
+          "type": "modified",
+          "versionImpact": "minor",
+          "childDiffs": [
+            {
+              "kind": "class",
+              "type": "modified",
+              "versionImpact": "minor",
+              "childDiffs": [
+                {
+                  "kind": "function",
+                  "type": "modified",
+                  "versionImpact": "minor",
+                  "childDiffs": [
+                    {
+                      "kind": "unknown",
+                      "type": "new",
+                      "versionImpact": "minor",
+                      "message": "new defaultable parameter 'y' is added"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "description": "Remove default param",
+    "oldCode": "public class Employee{\npublic function add(int y = 5){}\n}",
+    "newCode": "public class Employee{\npublic function add(){}\n}",
+    "expectedOutput": {
+      "kind": "package",
+      "type": "modified",
+      "versionImpact": "major",
+      "childDiffs": [
+        {
+          "kind": "module",
+          "type": "modified",
+          "versionImpact": "major",
+          "childDiffs": [
+            {
+              "kind": "class",
+              "type": "modified",
+              "versionImpact": "major",
+              "childDiffs": [
+                {
+                  "kind": "function",
+                  "type": "modified",
+                  "versionImpact": "major",
+                  "childDiffs": [
+                    {
+                      "kind": "unknown",
+                      "type": "removed",
+                      "versionImpact": "major",
+                      "message": "defaultable parameter 'y' is removed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "description": "Remove rest param",
+    "oldCode": "public class Employee{\npublic function add(int ... y){}\n}",
+    "newCode": "public class Employee{\npublic function add(){}\n}",
+    "expectedOutput": {
+      "kind": "package",
+      "type": "modified",
+      "versionImpact": "major",
+      "childDiffs": [
+        {
+          "kind": "module",
+          "type": "modified",
+          "versionImpact": "major",
+          "childDiffs": [
+            {
+              "kind": "class",
+              "type": "modified",
+              "versionImpact": "major",
+              "childDiffs": [
+                {
+                  "kind": "function",
+                  "type": "modified",
+                  "versionImpact": "major",
+                  "childDiffs": [
+                    {
+                      "kind": "unknown",
+                      "type": "removed",
+                      "versionImpact": "major",
+                      "message": "rest parameter 'y' is removed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "description": "Add rest param",
+    "oldCode": "public class Employee{\npublic function add(){}\n}",
+    "newCode": "public class Employee{\npublic function add(int ... y){}\n}",
+    "expectedOutput": {
+      "kind": "package",
+      "type": "modified",
+      "versionImpact": "minor",
+      "childDiffs": [
+        {
+          "kind": "module",
+          "type": "modified",
+          "versionImpact": "minor",
+          "childDiffs": [
+            {
+              "kind": "class",
+              "type": "modified",
+              "versionImpact": "minor",
+              "childDiffs": [
+                {
+                  "kind": "function",
+                  "type": "modified",
+                  "versionImpact": "minor",
+                  "childDiffs": [
+                    {
+                      "kind": "unknown",
+                      "type": "new",
+                      "versionImpact": "minor",
+                      "message": "new rest parameter 'y' is added"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "description": "Change kind default to rest",
+    "oldCode": "public class Employee{\npublic function add(int y = 5){}\n}",
+    "newCode": "public class Employee{\npublic function add(int ... y){}\n}",
+    "expectedOutput": {
+      "kind": "package",
+      "type": "modified",
+      "versionImpact": "major",
+      "childDiffs": [
+        {
+          "kind": "module",
+          "type": "modified",
+          "versionImpact": "major",
+          "childDiffs": [
+            {
+              "kind": "class",
+              "type": "modified",
+              "versionImpact": "major",
+              "childDiffs": [
+                {
+                  "kind": "function",
+                  "type": "modified",
+                  "versionImpact": "major",
+                  "childDiffs": [
+                    {
+                      "kind": "unknown",
+                      "type": "modified",
+                      "versionImpact": "major",
+                      "message": "kind of parameter 'y' is changed from 'DEFAULTABLE_PARAM' to 'REST_PARAM'"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "description": "Change kind required to rest",
+    "oldCode": "public class Employee{\npublic function add(int y){}\n}",
+    "newCode": "public class Employee{\npublic function add(int ... y){}\n}",
+    "expectedOutput": {
+      "kind": "package",
+      "type": "modified",
+      "versionImpact": "major",
+      "childDiffs": [
+        {
+          "kind": "module",
+          "type": "modified",
+          "versionImpact": "major",
+          "childDiffs": [
+            {
+              "kind": "class",
+              "type": "modified",
+              "versionImpact": "major",
+              "childDiffs": [
+                {
+                  "kind": "function",
+                  "type": "modified",
+                  "versionImpact": "major",
+                  "childDiffs": [
+                    {
+                      "kind": "unknown",
+                      "type": "modified",
+                      "versionImpact": "major",
+                      "message": "kind of parameter 'y' is changed from 'REQUIRED_PARAM' to 'REST_PARAM'"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "description": "Change kind rest to default",
+    "oldCode": "public class Employee{\npublic function add(int ... y){}\n}",
+    "newCode": "public class Employee{\npublic function add(int y = 1){}\n}",
+    "expectedOutput": {
+      "kind": "package",
+      "type": "modified",
+      "versionImpact": "major",
+      "childDiffs": [
+        {
+          "kind": "module",
+          "type": "modified",
+          "versionImpact": "major",
+          "childDiffs": [
+            {
+              "kind": "class",
+              "type": "modified",
+              "versionImpact": "major",
+              "childDiffs": [
+                {
+                  "kind": "function",
+                  "type": "modified",
+                  "versionImpact": "major",
+                  "childDiffs": [
+                    {
+                      "kind": "unknown",
+                      "type": "modified",
+                      "versionImpact": "major",
+                      "message": "kind of parameter 'y' is changed from 'REST_PARAM' to 'DEFAULTABLE_PARAM'"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "description": "Change kind rest to required",
+    "oldCode": "public class Employee{\npublic function add(int ... y){}\n}",
+    "newCode": "public class Employee{\npublic function add(int y){}\n}",
+    "expectedOutput": {
+      "kind": "package",
+      "type": "modified",
+      "versionImpact": "major",
+      "childDiffs": [
+        {
+          "kind": "module",
+          "type": "modified",
+          "versionImpact": "major",
+          "childDiffs": [
+            {
+              "kind": "class",
+              "type": "modified",
+              "versionImpact": "major",
+              "childDiffs": [
+                {
+                  "kind": "function",
+                  "type": "modified",
+                  "versionImpact": "major",
+                  "childDiffs": [
+                    {
+                      "kind": "unknown",
+                      "type": "modified",
+                      "versionImpact": "major",
+                      "message": "kind of parameter 'y' is changed from 'REST_PARAM' to 'REQUIRED_PARAM'"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
     "description": "Add parameter annotation to a function.",
     "oldCode": "public class Employee{\npublic function secureFunction(string name){}\n}",
     "newCode": "public class Employee{\npublic function secureFunction(@untainted string name){}\n}",

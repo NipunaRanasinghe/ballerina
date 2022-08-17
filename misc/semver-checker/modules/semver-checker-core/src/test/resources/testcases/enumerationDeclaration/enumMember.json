@@ -1,0 +1,56 @@
+[
+  {
+    "description": "Remove a member from a enumeration",
+    "oldCode": "public enum color{\n\tRed,\n\tBlue,\n\tGreen\n}",
+    "newCode": "public enum color{\n\tRed,\n\tBlue\n}",
+    "expectedOutput": {}
+  },
+  {
+    "description": " Add a new member to a enumeration",
+    "oldCode": "public enum color{\n\tRed,\n\tBlue\n}",
+    "newCode": "public enum color{\n\tRed,\n\tBlue,\n\tGreen\n}",
+    "expectedOutput": {}
+  },
+  {
+    "description": "Modify a constant  value of an enum member",
+    "oldCode": "public enum color{\n\tEng = \"English\",\n\tSI = \"Sinhala\"\n}",
+    "newCode": "public enum color{\n\tEng = \"Foreign language\",\n\tSI = \"Sinhala\"\n}\n",
+    "expectedOutput": {}
+  },
+  {
+    "description": " Remove Documentation",
+    "oldCode": "public enum color{\n\t#Documentation\n\tRed\n}\n",
+    "newCode": "public enum color{\n\tRed\n}\n",
+    "expectedOutput": {}
+  },
+  {
+    "description": "Modify Documentation\n",
+    "oldCode": "public enum color{\n\t#Enum member\n\tRed\n}\n",
+    "newCode": "public enum color{\n\t#Documentation\n\tRed\n}\n",
+    "expectedOutput": {}
+  },
+  {
+    "description": " Add Documentation",
+    "oldCode": "public enum color{\n\tRed\n}\n",
+    "newCode": "public enum color{\n\t#Documentation\n\tRed\n}\n",
+    "expectedOutput": {}
+  },
+  {
+    "description": "Modify Annotation\n",
+    "oldCode": "public enum color{\n\t@display{\n\tlabel:”label”\n}\n\n\tRed\n}\n",
+    "newCode": "public enum color{\n\t@display{\n\tlabel:””\n}\n\tRed\n}\n",
+    "expectedOutput": {}
+  },
+  {
+    "description": "Add Annotation",
+    "oldCode": "public enum color{\n\tRed\n}\n",
+    "newCode": "public enum color{\n\t@display{\n\tlabel:””\n}\n\tRed\n}\n",
+    "expectedOutput": {}
+  },
+  {
+    "description": " Remove Annotation",
+    "oldCode": "public enum color{\n\t@display{\n\tlabel:””\n}\n\n\tRed\n}\n",
+    "newCode": "public enum color{\n\tRed\n}\n",
+    "expectedOutput": {}
+  }
+]
