@@ -44,8 +44,8 @@ public class EnumerationComparatorTest {
     private static final String ENUMERATION_ANNOTATION_TESTCASE = ENUMERATION_TEST_DATA_ROOT + "annotation.json";
     private static final String ENUMERATION_DOCUMENTATION_TESTCASE = ENUMERATION_TEST_DATA_ROOT + "documentation.json";
     private static final String ENUMERATION_IDENTIFIER_TESTCASE = ENUMERATION_TEST_DATA_ROOT + "identifier.json";
-    private static final String ENUMERATION_MEMBER_TESTCASE = ENUMERATION_TEST_DATA_ROOT + "parameter.json";
     private static final String ENUMERATION_QUALIFIER_TESTCASE = ENUMERATION_TEST_DATA_ROOT + "qualifier.json";
+    private static final String ENUMERATION_MEMBER_TESTCASE = ENUMERATION_TEST_DATA_ROOT + "enumMember.json";
     private static final String ADVANCE_ENUMERATION_TESTCASE = ENUMERATION_TEST_DATA_ROOT + "advanceEnumeration.json";
 
     @Test(dataProvider = "EnumerationTestDataProvider")
@@ -91,11 +91,11 @@ public class EnumerationComparatorTest {
             case "testEnumerationIdentifier":
                 filePath = ENUMERATION_IDENTIFIER_TESTCASE;
                 break;
-            case "testEnumerationParameter":
-                filePath = ENUMERATION_MEMBER_TESTCASE;
-                break;
             case "testEnumerationQualifier":
                 filePath = ENUMERATION_QUALIFIER_TESTCASE;
+                break;
+            case "testEnumerationMember":
+                filePath = ENUMERATION_MEMBER_TESTCASE;
                 break;
             case "testAdvanceEnumeration":
                 filePath = ADVANCE_ENUMERATION_TESTCASE;
