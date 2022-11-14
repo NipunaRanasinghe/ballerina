@@ -154,8 +154,8 @@ public class EvaluationUtils {
     public static final String XML_CONCAT_METHOD = "concatenate";
     public static final String STRING_TO_XML_METHOD = "stringToXml";
     public static final String INVOKE_OBJECT_METHOD_ASYNC = "invokeObjectMethod";
-    public static final String INVOKE_FUNCTION_ASYNC = "invokeFunction";
-    public static final String CLASSLOAD_AND_INVOKE_METHOD = "classloadAndInvokeFunction";
+    public static final String INVOKE_FUNCTION_ASYNC = "classloadAndInvokeFunction";
+    public static final String CLASSLOAD_AND_INVOKE_METHOD = "classloadAndInvokeExecutable";
     public static final String CREATE_INT_RANGE_METHOD = "createIntRange";
     public static final String GET_REST_ARG_ARRAY_METHOD = "getRestArgArray";
     public static final String GET_XML_FILTER_RESULT_METHOD = "getXMLFilterResult";

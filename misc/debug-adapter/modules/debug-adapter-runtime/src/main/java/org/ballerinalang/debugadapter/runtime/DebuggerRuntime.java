@@ -88,16 +88,23 @@ import static io.ballerina.runtime.api.creators.TypeCreator.createErrorType;
 @SuppressWarnings("unused")
 public class DebuggerRuntime {
 
+    // runtime helper classes
+    private static final String MODULE_INIT_CLASS_NAME = "$_init";
+    private static final String CONFIGURE_INIT_CLASS_NAME = "$configurationMapper";
+    private static final String MODULE_TYPES_CLASS_NAME = "types.$_types";
+
+    // runtime helper methods
+    private static final String MODULE_INIT_METHOD_NAME = "$moduleInit";
+    private static final String MODULE_START_METHOD_NAME = "$moduleStart";
+    private static final String CONFIGURE_INIT_METHOD_NAME = "$configureInit";
+    private static final String CREATE_TYPE_CONSTANTS_METHOD = "$createTypes";
+
+    // misc
     private static final String EVALUATOR_STRAND_NAME = "evaluator-strand";
     private static final String XML_STEP_SEPARATOR = "/";
     private static final String XML_ALL_CHILDREN_STEP = "\\*";
     private static final String XML_DESCENDANT_STEP_PREFIX = "**";
     private static final String XML_NAME_PATTERN_SEPARATOR = "\\|";
-    private static final String MODULE_INIT_CLASS_NAME = "$_init";
-    private static final String CONFIGURE_INIT_CLASS_NAME = "$configurationMapper";
-    private static final String MODULE_INIT_METHOD_NAME = "$moduleInit";
-    private static final String MODULE_START_METHOD_NAME = "$moduleStart";
-    private static final String CONFIGURE_INIT_METHOD_NAME = "$configureInit";
 
     /**
      * Invokes Ballerina object methods in blocking manner.
@@ -386,13 +393,13 @@ public class DebuggerRuntime {
      * @param userArgs       argument values
      * @return result of the function invocation
      */
-    public static Object classloadAndInvokeFunction(String executablePath, String mainClass, String functionName,
-                                                    Object... userArgs) {
+    public static Object classloadAndInvokeExecutable(String executablePath, String mainClass, String functionName,
+                                                      Object... userArgs) {
         try {
             // Need to pass the strand (or null) as the first argument for the generated function.
-            List<Object> functionArgs = new ArrayList<>();
-            functionArgs.add(null);
-            functionArgs.addAll(Arrays.asList(userArgs));
+            List<Object> paramValues = new ArrayList<>();
+            paramValues.add(null);
+            paramValues.addAll(Arrays.asList(userArgs));
 
             URL pathUrl = Paths.get(executablePath).toUri().toURL();
             URLClassLoader classLoader = AccessController.doPrivileged((PrivilegedAction<URLClassLoader>) () ->
@@ -419,7 +426,40 @@ public class DebuggerRuntime {
             invokeFunction(classLoader, scheduler, String.join(".", packageNameSpace, MODULE_INIT_CLASS_NAME),
                     MODULE_START_METHOD_NAME, new Object[1]);
             // Run the actual method
-            return invokeFunction(classLoader, scheduler, mainClass, functionName, functionArgs.toArray());
+            return invokeFunction(classLoader, scheduler, mainClass, functionName, paramValues.toArray());
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public static Object classloadAndInvokeFunction(ClassLoader classLoader, Scheduler scheduler, String className,
+                                                    String methodName, Object... paramValues) {
+        try {
+            if (scheduler == null) {
+                scheduler = new Scheduler(1, false);
+            }
+
+            // Derives the namespace of the generated classes.
+            String[] classNameParts = className.split("\\.");
+            String packageOrg = classNameParts[0];
+            String packageName = classNameParts[1];
+            String packageVersion = classNameParts[2];
+            String packageNameSpace = String.join(".", packageOrg, packageName, packageVersion);
+
+            // Initialize configurations
+            TomlDetails configurationDetails = LaunchUtils.getConfigurationDetails();
+            invokeMethodDirectly(classLoader, String.join(".", packageNameSpace, CONFIGURE_INIT_CLASS_NAME),
+                    CONFIGURE_INIT_METHOD_NAME, new Class[]{String[].class, Path[].class, String.class},
+                    new Object[]{new String[]{}, configurationDetails.paths, configurationDetails.configContent});
+
+            // Initialize the module
+            invokeFunction(classLoader, scheduler, String.join(".", packageNameSpace, MODULE_INIT_CLASS_NAME),
+                    MODULE_INIT_METHOD_NAME, new Object[1]);
+            // Start the module
+            invokeFunction(classLoader, scheduler, String.join(".", packageNameSpace, MODULE_INIT_CLASS_NAME),
+                    MODULE_START_METHOD_NAME, new Object[1]);
+            // Run the actual method
+            return invokeFunction(classLoader, scheduler, className, methodName, paramValues);
         } catch (Exception e) {
             return e.getMessage();
         }
