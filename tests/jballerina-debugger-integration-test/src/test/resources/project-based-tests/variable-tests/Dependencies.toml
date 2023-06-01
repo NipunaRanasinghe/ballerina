@@ -8,6 +8,18 @@ dependencies-toml-version = "2"
 
 [[package]]
 org = "ballerina"
+name = "io"
+version = "1.4.1"
+dependencies = [
+	{org = "ballerina", name = "jballerina.java"},
+	{org = "ballerina", name = "lang.value"}
+]
+modules = [
+	{org = "ballerina", packageName = "io", moduleName = "io"}
+]
+
+[[package]]
+org = "ballerina"
 name = "jballerina.java"
 version = "0.0.0"
 
@@ -23,14 +35,22 @@ modules = [
 ]
 
 [[package]]
+org = "ballerina"
+name = "lang.value"
+version = "0.0.0"
+dependencies = [
+	{org = "ballerina", name = "jballerina.java"}
+]
+
+[[package]]
 org = "debug_test_resources"
 name = "variable_tests"
 version = "0.1.0"
 dependencies = [
+	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "lang.int"}
 ]
 modules = [
 	{org = "debug_test_resources", packageName = "variable_tests", moduleName = "variable_tests"}
 ]
-
 

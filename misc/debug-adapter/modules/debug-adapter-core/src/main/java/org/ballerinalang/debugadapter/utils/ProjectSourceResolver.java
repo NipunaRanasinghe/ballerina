@@ -94,9 +94,20 @@ public class ProjectSourceResolver extends SourceResolver {
 
                 if (modulePart.isBlank()) {
                     // default module
-                    return Optional.of(Paths.get(projectRoot, locationName));
+                    // 1. check and return if there's a user module source matching to the location information.
+                    File moduleFile = Paths.get(projectRoot, locationName).toFile();
+                    if (moduleFile.isFile()) {
+                        return Optional.of(moduleFile.toPath().toAbsolutePath());
+                    }
+
+                    // 2. if not, check and return if there's a generated module source matching to the location
+                    // information.
+                    File generatedFile = Paths.get(projectRoot, GEN_MODULE_DIR, locationName).toFile();
+                    if (generatedFile.isFile()) {
+                        return Optional.of(generatedFile.toPath().toAbsolutePath());
+                    }
                 } else {
-                    // other modules
+                    // submodule
                     // 1. check and return if there's a user module source matching to the location information.
                     File moduleFile = Paths.get(projectRoot, USER_MODULE_DIR, modulePart, locationName).toFile();
                     if (moduleFile.isFile()) {

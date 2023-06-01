@@ -14,6 +14,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/io;
 import ballerina/lang.'int;
 
 type '\ \/\:\@\[\`\{\~\u{03C0}_123_ƮέŞŢ_Student record {
@@ -50,6 +51,7 @@ class 'Person_\\\ \/\<\>\:\@\[\`\{\~\u{03C0}_ƮέŞŢ {
     string address = "No 20, Palm grove";
 
     public function getSum(int a, int b) returns int {
+        io:println("getSum() called");
         future<int> futureSum = @strand {thread: "any"} start addition(a, b);
         int|error result = wait futureSum;
         if result is int {
